@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: php
+    build:
+      context: ./
+      dockerfile: ./docker/web/Dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - ./html:/var/www/html
+      - vendor-store:/var/www/html/vendor
+      - storage-store:/var/www/html/storage
+      - node_modules-store:/var/www/html/node_modules
+    depends_on:
+      - db
+  db:
+    container_name: mysql
+    platform: linux/x86_64
+    build:
+      context: ./
+      dockerfile: ./docker/mysql/Dockerfile
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      TZ: "Asia/Tokyo"
+    ports:
+      - 3306:3306
+volumes:
+  db-store:
+  vendor-store:
+  storage-store:
+  node_modules-store:
