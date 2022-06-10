@@ -1,28 +1,31 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\UseCases\Project\IndexAction;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use App\Models\Project;
+use Illuminate\Http\JsonResponse;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(IndexAction $action)
     {
-        return response()->json(Project::all());
+        return response()->json($action());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreProjectRequest  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  StoreProjectRequest  $request
+     * @return JsonResponse
      */
 
     public function store(StoreProjectRequest $request)
@@ -33,8 +36,8 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\JsonResponse
+     * @param  Project  $project
+     * @return JsonResponse
      */
     public function show(Project $project)
     {
@@ -44,9 +47,9 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateProjectRequest  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\JsonResponse
+     * @param  UpdateProjectRequest  $request
+     * @param  Project  $project
+     * @return JsonResponse
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
@@ -56,8 +59,8 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\JsonResponse
+     * @param  Project  $project
+     * @return JsonResponse
      */
     public function destroy(Project $project)
     {
