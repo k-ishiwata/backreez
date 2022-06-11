@@ -15,7 +15,7 @@ class UpdateAction
      * @param  Project  $project
      * @return bool
      */
-    public function __invoke(ValidatedInput $request, Project $project)
+    public function __invoke(ValidatedInput $request, Project $project): bool
     {
         return $project->update($request->all());
     }

@@ -74,6 +74,19 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function idで取得できる(): void
+    {
+        $data = Project::first();
+
+        $response = $this->getJson(self::URL . '/' . $data->id);
+        $response
+            ->assertOk()
+            ->assertExactJson($data->toArray());
+    }
+
+    /**
+     * @test
+     */
     public function 更新できる(): void
     {
         $data = Project::first();
@@ -85,6 +98,21 @@ class ProjectsTest extends TestCase
         $response->assertOk();
 
         $this->assertDatabaseHas('projects', $data->only([
+            'id', 'name', 'description'
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function 削除できる(): void
+    {
+        $data = Project::first();
+
+        $response = $this->deleteJson(self::URL.'/'.$data->id);
+        $response->assertOk();
+
+        $this->assertDatabaseMissing('projects', $data->only([
             'id', 'name', 'description'
         ]));
     }
