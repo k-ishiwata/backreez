@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\UseCases\Project\IndexAction;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\UseCases\Project\StoreAction;
+use App\UseCases\Project\UpdateAction;
+use App\Http\Requests\ProjectRequest;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
     public function index(IndexAction $action)
@@ -22,15 +23,13 @@ class ProjectController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  StoreProjectRequest  $request
+     * @param  StoreAction  $action
+     * @param  ProjectRequest  $request
      * @return JsonResponse
      */
-
-    public function store(StoreProjectRequest $request)
+    public function store(StoreAction $action, ProjectRequest $request)
     {
-        return response()->json([]);
+        return response()->json($action($request->safe()), Response::HTTP_CREATED);
     }
 
     /**
@@ -45,15 +44,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  UpdateProjectRequest  $request
+     * @param  UpdateAction  $action
+     * @param  ProjectRequest  $request
      * @param  Project  $project
      * @return JsonResponse
      */
-    public function update(UpdateProjectRequest $request, Project $project)
+    public function update(UpdateAction $action, ProjectRequest $request, Project $project)
     {
-        return response()->json([]);
+        return response()->json($action($request->safe(), $project));
     }
 
     /**

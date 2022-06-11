@@ -3,27 +3,29 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Project;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectsTest extends TestCase
 {
     use RefreshDatabase;
 
+    const URL = '/api/projects';
+
     public function setUp(): void
     {
         parent::setUp();
 
-        Project::factory(10)->create();
+        Project::factory(20)->create();
     }
 
     /**
      * @test
      */
-    public function 一覧を正常なパラメータで取得できる(): void
+    public function 一覧を取得できる(): void
     {
-        $response = $this->getJson('/api/projects');
+        $response = $this->getJson(self::URL);
         $response
             ->assertOk()
             ->assertJsonCount(10, 'data')
@@ -48,5 +50,77 @@ class ProjectsTest extends TestCase
                 'to',
                 'total',
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function 登録できる(): void
+    {
+        $data = [
+            'key'         => 'ABC_001',
+            'name'        => 'テストプロジェクト',
+            'description' => 'これはてすとです。',
+        ];
+
+        $response = $this->postJson(self::URL, $data);
+        $response
+            ->assertCreated()
+            ->assertJsonFragment($data);
+
+        $this->assertDatabaseHas('projects', $data);
+    }
+
+    /**
+     * @test
+     */
+    public function 更新できる(): void
+    {
+        $data = Project::first();
+
+        $data->name = '書き換え';
+        $data->description = '内容書き換え';
+
+        $response = $this->putJson(self::URL.'/'.$data->id, $data->toArray());
+        $response->assertOk();
+
+        $this->assertDatabaseHas('projects', $data->only([
+            'id', 'name', 'description'
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function 必須項目のバリデーション(): void
+    {
+        $response = $this->postJson(self::URL, []);
+        $response
+            ->assertUnprocessable()
+            ->assertInvalid([
+                'key'  => 'この項目は必須です。',
+                'name' => 'この項目は必須です。',
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function 重複keyのバリデーション(): void
+    {
+        $data = [
+            'key'  => 'ABC_001',
+            'name' => 'テストプロジェクト'
+        ];
+
+        Project::create([
+            'key'  => $data['key'],
+            'name' => '重複テスト'
+        ]);
+
+        $response = $this->postJson(self::URL, $data);
+        $response
+            ->assertUnprocessable()
+            ->assertInvalid(['key' => 'すでに使用されています。']);
     }
 }
