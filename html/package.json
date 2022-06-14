@@ -7,19 +7,28 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "yarn run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "test": "jest"
     },
     "devDependencies": {
+        "@testing-library/jest-dom": "^5.16.4",
+        "@testing-library/react": "^13.3.0",
+        "@testing-library/user-event": "^14.2.0",
+        "@types/jest": "^28.1.1",
         "@types/react": "^18.0.12",
         "@types/react-dom": "^18.0.5",
         "axios": "^0.25",
+        "jest": "^28.1.1",
+        "jest-environment-jsdom": "^28.1.1",
         "laravel-mix": "^6.0.6",
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.52.3",
         "sass-loader": "^12.1.0",
+        "ts-jest": "^28.0.4",
         "ts-loader": "^9.3.0",
+        "tsconfig-paths-webpack-plugin": "^3.5.2",
         "typescript": "^4.7.3"
     }
 }

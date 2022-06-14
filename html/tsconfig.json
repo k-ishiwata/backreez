@@ -17,9 +17,14 @@
         "moduleResolution": "node",
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        // ルートパスの設定
+        "baseUrl": "./resources/ts",
+        "paths": {
+            "@/*": ["*"]
+        }
     },
     "include": [
-        "resources/ts"
+        "resources/ts/**/*"
     ]
 }
