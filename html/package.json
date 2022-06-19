@@ -23,6 +23,7 @@
         "laravel-mix": "^6.0.6",
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
+        "react-router-dom": "6",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.52.3",
         "sass-loader": "^12.1.0",
@@ -30,5 +31,14 @@
         "ts-loader": "^9.3.0",
         "tsconfig-paths-webpack-plugin": "^3.5.2",
         "typescript": "^4.7.3"
+    },
+    "dependencies": {
+        "@mantine/core": "^4.2.9",
+        "@mantine/dates": "^4.2.9",
+        "@mantine/form": "^4.2.9",
+        "@mantine/hooks": "^4.2.9",
+        "@mantine/modals": "^4.2.9",
+        "@mantine/notifications": "^4.2.9",
+        "dayjs": "^1.11.3"
     }
 }

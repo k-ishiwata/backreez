@@ -21,7 +21,7 @@ mix.webpackConfig({
     resolve: {
         extensions: ['.ts', '.tsx'],
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })]
-    },
+    }
 });
 
 if (mix.inProduction()){
