@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -41,10 +42,27 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (HttpException $e, $request) {
+            if ($request->is('api/*')) {
+                $message = match ($e->getStatusCode()) {
+                    401 => 'Unauthorized',
+                    403 => 'Forbidden',
+                    404 => 'Not Found',
+                    419 => 'Page Expired',
+                    429 => 'Too Many Requests',
+                    500 => 'Server Error',
+                    503 => 'Service Unavailable',
+                    default => ''
+                };
+
+                return response()->json([
+                    'message' => $message
+                ], $e->getStatusCode());
+            }
+
+            return $this;
         });
     }
 }
