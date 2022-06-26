@@ -15,6 +15,6 @@ class IndexAction
      */
     public function __invoke(): LengthAwarePaginator
     {
-        return Project::latest()->paginate(10);
+        return Project::latest()->paginate(20);
     }
 }

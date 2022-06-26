@@ -1,13 +1,13 @@
 import React from 'react'
 import type { RouteObject } from 'react-router-dom'
-import Layout from '@/components/Layout'
+import { MainLayout } from '@/components/layouts/MainLayout'
 import DashboardPage from '@/pages/dashboard'
 import ProjectsPage from '@/pages/projects'
 
 export const routes: RouteObject[] = [
     {
         path: '/',
-        element: <Layout />,
+        element: <MainLayout />,
         children: [
             {
                 index: true,
