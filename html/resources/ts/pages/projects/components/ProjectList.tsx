@@ -1,18 +1,12 @@
 import React, { useState } from 'react'
-import dayjs from 'dayjs'
-import { Link } from 'react-router-dom'
-import { useProjects } from '@/queries/projects'
+import { useProjects } from '@/queries/projectQuery'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
-    Card,
-    Text,
-    Title,
-    Group,
-    Button,
     Loader,
     SimpleGrid,
     Pagination
 } from '@mantine/core'
+import { ProjectItem } from './ProjectItem'
 import type { Project } from '@/types/Project'
 
 type Props = {
@@ -38,13 +32,6 @@ export const ProjectList: React.FC<Props> = ({
 
     const { data: projects, last_page } = projectPager
 
-    // プロジェクト各リンク一覧
-    const projectLinks = [
-        { link: 'home',     label: 'ホーム' },
-        { link: 'issues',   label: '課題' },
-        { link: 'settings', label: '設定' }
-    ]
-
     const handlePagerClick = (page: number) => {
         setPage(page)
         // アドレスURLの書き換え
@@ -63,42 +50,11 @@ export const ProjectList: React.FC<Props> = ({
                 style={{ marginBottom: 30 }}
             >
                 {projects.map((project, index) => (
-                    <Card key={index} shadow="md" p="lg">
-                        <Group position="apart" align="top">
-                            <div>
-                                <Title order={4} style={{marginBottom: 3}}>
-                                    {project.name}
-                                </Title>
-                                <Group style={{marginBottom: 6}}>
-                                    <Text size="sm">
-                                        作成日 : {dayjs(project.updated_at).format('YYYY/MM/DD')}
-                                    </Text>
-                                    <Text size="sm">
-                                        更新日 : {dayjs(project.created_at).format('YYYY/MM/DD')}
-                                    </Text>
-                                </Group>
-                                <Group spacing="xs">
-                                    {projectLinks.map((item, index) => (
-                                        <Button
-                                            key={index}
-                                            variant="light"
-                                            size="xs"
-                                            compact
-                                            component={Link}
-                                            to={`/projects/${project.key}/${item.link}`}
-                                        >
-                                            {item.label}
-                                        </Button>
-                                    ))}
-                                </Group>
-                            </div>
-                            <Group spacing="xs" position="right" direction="column">
-                                <Button variant="outline" size="xs" component="a"
-                                        onClick={() => handleEditModal(project)}>編集</Button>
-                                <Button color="red" size="xs">削除</Button>
-                            </Group>
-                        </Group>
-                    </Card>
+                    <ProjectItem
+                        key={index}
+                        project={project}
+                        handleEditModal={handleEditModal}
+                    />
                 ))}
             </SimpleGrid>
             <Pagination

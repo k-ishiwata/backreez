@@ -1,7 +1,7 @@
 import { Pager } from './Pager'
 
 export type Project = {
-    id: string
+    id: number
     key: string
     name: string
     description?: string

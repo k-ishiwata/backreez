@@ -9,6 +9,10 @@ import {
 } from '@mantine/core'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import {
+    useCreateProject,
+    useUpdateProject
+} from '@/queries/projectQuery'
 import { projectSchema } from '@/validations/ProjectSchema'
 import type { Project } from 'types/Project'
 import type { ProjectSchema } from '@/validations/ProjectSchema'
@@ -30,6 +34,9 @@ export const InputModal: React.FC<Props> = ({
         resolver: zodResolver(projectSchema)
     })
 
+    const updateProject = useUpdateProject()
+    const createProject = useCreateProject()
+
     useEffect(() => {
         if (isModalOpened) {
             setValue('key', editItem?.key || '')
@@ -41,7 +48,18 @@ export const InputModal: React.FC<Props> = ({
     }, [isModalOpened])
 
     const onSubmit: SubmitHandler<ProjectSchema> = data => {
-        console.log(data)
+        // editItemgがある場合は更新
+        if (editItem) {
+            const newProject = {...editItem, ...data}
+            updateProject.mutate({
+                id: editItem.id,
+                project: newProject
+            })
+        } else {
+            createProject.mutate(data)
+        }
+
+        setIsModalOpened(false)
     }
 
     return (
