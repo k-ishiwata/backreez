@@ -7,6 +7,7 @@ import {
     Text,
     Title,
     Group,
+    Stack,
     Button
 } from '@mantine/core'
 import type { Project } from '@/types/Project'
@@ -59,14 +60,14 @@ export const ProjectItem: React.FC<Props> = ({
                         ))}
                     </Group>
                 </div>
-                <Group spacing="xs" position="right" direction="column">
+                <Stack spacing="xs">
                     <Button variant="outline" size="xs" component="a"
                             onClick={() => handleEditModal(project)}>編集</Button>
                     <Button
                         color="red" size="xs"
                         onClick={() => deleteProject.mutate(project.id)}
                     >削除</Button>
-                </Group>
+                </Stack>
             </Group>
         </Card>
     )

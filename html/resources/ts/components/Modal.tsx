@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal as BaseModal } from '@mantine/core'
-import { ModalProps } from '@mantine/core/lib/components/Modal'
+import { ModalProps } from '@mantine/core/lib/Modal/Modal'
 
 const Modal: React.FC<ModalProps> = (props) => {
     const params = {

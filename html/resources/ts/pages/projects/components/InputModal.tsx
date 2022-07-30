@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Modal from '@/components/Modal'
 import {
     Group,
+    Stack,
     Title,
     Button,
     Textarea,
@@ -71,7 +72,7 @@ export const InputModal: React.FC<Props> = ({
             padding="xl"
         >
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Group direction="column" grow>
+                <Stack>
                     <TextInput
                         required
                         label="プロジェクトID"
@@ -94,7 +95,7 @@ export const InputModal: React.FC<Props> = ({
                         error={errors.description?.message}
                         {...register('description')}
                     />
-                </Group>
+                </Stack>
                 <Group spacing="xs" mt="lg">
                     <Button type="submit">保存</Button>
                     <Button variant="outline" onClick={() => setIsModalOpened(false)}>キャンセル</Button>

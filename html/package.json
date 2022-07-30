@@ -38,12 +38,13 @@
         "zod": "^3.17.3"
     },
     "dependencies": {
-        "@mantine/core": "^4.2.9",
-        "@mantine/dates": "^4.2.9",
-        "@mantine/form": "^4.2.9",
-        "@mantine/hooks": "^4.2.9",
-        "@mantine/modals": "^4.2.9",
-        "@mantine/notifications": "^4.2.9",
+        "@emotion/react": "^11.9.3",
+        "@mantine/core": "^5.0.2",
+        "@mantine/dates": "^5.0.2",
+        "@mantine/form": "^5.0.2",
+        "@mantine/hooks": "^5.0.2",
+        "@mantine/modals": "^5.0.2",
+        "@mantine/notifications": "^5.0.2",
         "dayjs": "^1.11.3"
     }
 }

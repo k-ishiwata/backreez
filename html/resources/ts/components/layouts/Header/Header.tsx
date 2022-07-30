@@ -14,7 +14,7 @@ import {
     IoSettingsOutline,
     IoChevronDownOutline
 } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import useStyles from './Header.styles'
 
 export const Header: React.FC= () => {
@@ -29,22 +29,25 @@ export const Header: React.FC= () => {
         >
             <p className={classes.appName}>Backreez</p>
             <ul className={classes.mainNav}>
-                <li className="item"><Link to="/">ダッシュボード</Link></li>
-                <li className="item"><Link to="projects">プロジェクト</Link></li>
+                <li className="item"><NavLink to="/">ダッシュボード</NavLink></li>
+                <li className="item"><NavLink to="projects">プロジェクト</NavLink></li>
             </ul>
 
             <Group className={classes.subNav}>
                 <ActionIcon variant="default" onClick={() => toggleColorScheme()} size={30}>
                     {colorScheme === 'dark' ? <IoSunnyOutline /> : <IoMoonOutline />}
                 </ActionIcon>
-                <Menu control={
-                    <Group spacing="xs">
-                        <Avatar radius="xl" />
-                        <IoChevronDownOutline />
-                    </Group>
-                } gutter={12}>
-                    <Menu.Item icon={<IoSettingsOutline />}>設定</Menu.Item>
-                    <Menu.Item icon={<IoLogOutOutline />}>ログアウト</Menu.Item>
+                <Menu width={200}>
+                    <Menu.Target>
+                        <Group spacing="xs">
+                            <Avatar radius="xl" />
+                            <IoChevronDownOutline />
+                        </Group>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                        <Menu.Item icon={<IoSettingsOutline />}>設定</Menu.Item>
+                        <Menu.Item icon={<IoLogOutOutline />}>ログアウト</Menu.Item>
+                    </Menu.Dropdown>
                 </Menu>
             </Group>
         </BaseHeader>

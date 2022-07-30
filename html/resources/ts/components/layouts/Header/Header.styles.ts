@@ -1,9 +1,13 @@
 import {
     createStyles,
-    MantineTheme
+    MantineTheme,
+    useMantineColorScheme
 } from '@mantine/core'
 
 export default createStyles((theme: MantineTheme) => {
+    const { colorScheme } = useMantineColorScheme()
+    const dark = colorScheme === 'dark'
+
     return {
         wrapper: {
             alignItems: 'center',
@@ -25,12 +29,12 @@ export default createStyles((theme: MantineTheme) => {
                 cursor: 'pointer',
 
                 a: {
-                    color: theme.colors.gray[9],
+                    color: dark ? theme.colors.gray[1] : theme.colors.gray[9],
                     textDecoration: 'none',
 
                     '&:hover': {
                         fontWeight: 'bold',
-                        color: theme.colors.gray[7],
+                        color: dark ? theme.colors.gray[2] : theme.colors.gray[7],
                     },
 
                     '&.active': {
