@@ -3,7 +3,6 @@ import Modal from '@/components/Modal'
 import {
     Group,
     Stack,
-    Title,
     Button,
     Textarea,
     TextInput
@@ -49,7 +48,7 @@ export const InputModal: React.FC<Props> = ({
     }, [isModalOpened])
 
     const onSubmit: SubmitHandler<ProjectSchema> = data => {
-        // editItemgがある場合は更新
+        // editItemがある場合は更新
         if (editItem) {
             const newProject = {...editItem, ...data}
             updateProject.mutate({
@@ -68,7 +67,7 @@ export const InputModal: React.FC<Props> = ({
             opened={isModalOpened}
             onClose={() => setIsModalOpened(false)}
             size="lg"
-            title={<Title order={3}>{editItem ? '編集' : '新規作成'}</Title>}
+            title={editItem ? '編集' : '新規作成'}
             padding="xl"
         >
             <form onSubmit={handleSubmit(onSubmit)}>

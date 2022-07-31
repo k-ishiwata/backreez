@@ -7,6 +7,7 @@ import {
     ColorSchemeProvider
 } from '@mantine/core'
 import { NotificationsProvider } from '@mantine/notifications'
+import { ModalsProvider } from '@mantine/modals'
 import {
     QueryClient,
     QueryClientProvider
@@ -31,7 +32,7 @@ const App: React.FC = () => {
 
     // ダークモード切り替え
     const toggleColorScheme = (value?: ColorScheme) => {
-        const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark');
+        const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark')
         setColorScheme(nextColorScheme);
     };
 
@@ -44,7 +45,9 @@ const App: React.FC = () => {
                     withNormalizeCSS
                 >
                     <NotificationsProvider>
-                        <div>{router}</div>
+                        <ModalsProvider>
+                            <div>{router}</div>
+                        </ModalsProvider>
                     </NotificationsProvider>
                 </MantineProvider>
             </ColorSchemeProvider>
