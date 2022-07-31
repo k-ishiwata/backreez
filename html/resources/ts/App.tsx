@@ -6,6 +6,7 @@ import {
     ColorScheme,
     ColorSchemeProvider
 } from '@mantine/core'
+import { NotificationsProvider } from '@mantine/notifications'
 import {
     QueryClient,
     QueryClientProvider
@@ -42,7 +43,9 @@ const App: React.FC = () => {
                     withGlobalStyles
                     withNormalizeCSS
                 >
-                    <div>{router}</div>
+                    <NotificationsProvider>
+                        <div>{router}</div>
+                    </NotificationsProvider>
                 </MantineProvider>
             </ColorSchemeProvider>
         </QueryClientProvider>
