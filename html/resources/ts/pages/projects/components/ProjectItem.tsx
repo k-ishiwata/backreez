@@ -10,12 +10,12 @@ import {
     Stack,
     Button
 } from '@mantine/core'
-import { useConfirmModal } from '@/hooks/confirmModal'
+import { useConfirmModal, useContentModal } from '@/hooks/modals'
+import { InputModal } from './InputModal'
 import type { Project } from '@/types/Project'
 
 type Props = {
-    project: Project,
-    handleEditModal: (project: Project) => void
+    project: Project
 }
 
 // プロジェクト各リンク一覧
@@ -26,12 +26,13 @@ const projectLinks = [
 ]
 
 export const ProjectItem: React.FC<Props> = ({
-    project,
-    handleEditModal
+    project
 }) => {
     const deleteProject = useDeleteProject()
+
     // 削除確認モーダル
     const { deleteModal } = useConfirmModal<Project>(deleteProject)
+    const { openModal } = useContentModal()
 
     return (
         <Card shadow="md" p="lg">
@@ -65,7 +66,10 @@ export const ProjectItem: React.FC<Props> = ({
                 </div>
                 <Stack spacing="xs">
                     <Button variant="outline" size="xs" component="a"
-                            onClick={() => handleEditModal(project)}>編集</Button>
+                        onClick={() => openModal({
+                            title: '編集',
+                            children: <InputModal editItem={project} />
+                        })}>編集</Button>
                     <Button
                         color="red" size="xs"
                         onClick={() => deleteModal(project)}

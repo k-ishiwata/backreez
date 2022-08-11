@@ -7,15 +7,8 @@ import {
     Pagination
 } from '@mantine/core'
 import { ProjectItem } from './ProjectItem'
-import type { Project } from '@/types/Project'
 
-type Props = {
-    handleEditModal: (project: Project) => void
-}
-
-export const ProjectList: React.FC<Props> = ({
-    handleEditModal
-}) => {
+export const ProjectList: React.FC = () => {
     const navigate = useNavigate()
     // pageパラメータ取得
     const [ params ] = useSearchParams()
@@ -53,7 +46,6 @@ export const ProjectList: React.FC<Props> = ({
                     <ProjectItem
                         key={index}
                         project={project}
-                        handleEditModal={handleEditModal}
                     />
                 ))}
             </SimpleGrid>
