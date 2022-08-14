@@ -36,7 +36,7 @@ export const ProjectItem: React.FC<Props> = ({
 
     return (
         <Card shadow="md" p="lg">
-            <Group position="apart" align="top">
+            <Group position="apart" align="top" noWrap>
                 <div>
                     <Title order={4} style={{marginBottom: 3}}>
                         {project.name}
