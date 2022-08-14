@@ -1,7 +1,11 @@
 <?php
+declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ {
+    ProjectController,
+    IssueController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +19,4 @@ use App\Http\Controllers\ProjectController;
 */
 
 Route::apiResource('projects', ProjectController::class);
+Route::apiResource('issues', IssueController::class);

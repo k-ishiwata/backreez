@@ -8,13 +8,16 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class IndexAction
 {
+    // 表示数
+    const DISPLAY_NUMBER = 20;
+
     /**
-     * プロジェクト一覧取得
+     * プロジェクト一覧
      *
      * @return LengthAwarePaginator
      */
     public function __invoke(): LengthAwarePaginator
     {
-        return Project::latest()->paginate(20);
+        return Project::latest()->paginate(self::DISPLAY_NUMBER);
     }
 }

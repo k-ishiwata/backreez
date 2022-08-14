@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Project;
+use App\UseCases\Project\IndexAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectsTest extends TestCase
@@ -17,7 +18,7 @@ class ProjectsTest extends TestCase
     {
         parent::setUp();
 
-        Project::factory(20)->create();
+        Project::factory(40)->create();
     }
 
     /**
@@ -28,7 +29,7 @@ class ProjectsTest extends TestCase
         $response = $this->getJson(self::URL);
         $response
             ->assertOk()
-            ->assertJsonCount(10, 'data')
+            ->assertJsonCount(IndexAction::DISPLAY_NUMBER, 'data')
             ->assertJsonStructure([
                 'current_page',
                 'data',

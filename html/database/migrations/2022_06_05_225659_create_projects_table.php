@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->char('key', 10)->unique();
-            $table->string('name', 30);
-            $table->string('description', 255)->nullable();
+            $table->string('name', 30)->comment('プロジェクト名');
+            $table->string('description', 255)->nullable()->comment('概要');
             $table->softDeletes();
             $table->timestamps();
         });

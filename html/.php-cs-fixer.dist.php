@@ -17,5 +17,6 @@ return $config
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
+        'single_import_per_statement' => false
     ])
     ->setFinder($finder);
