@@ -12,7 +12,7 @@ export const ProjectList: React.FC = () => {
     const navigate = useNavigate()
     // pageパラメータ取得
     const [ params ] = useSearchParams()
-    const pageParam = params.get('page')
+    const pageParam = params.get('page') || 1
 
     // 現在のページ
     const [page, setPage] = useState<number>(Number(pageParam))
@@ -49,11 +49,14 @@ export const ProjectList: React.FC = () => {
                     />
                 ))}
             </SimpleGrid>
-            <Pagination
-                page={page}
-                total={last_page}
-                onChange={handlePagerClick}
-            />
+            {
+                last_page !== 1 &&
+                    <Pagination
+                        page={page}
+                        total={last_page}
+                        onChange={handlePagerClick}
+                    />
+            }
         </div>
     )
 }

@@ -57,7 +57,7 @@ export const ProjectItem: React.FC<Props> = ({
                                 size="xs"
                                 compact
                                 component={Link}
-                                to={`/projects/${project.key}/${item.link}`}
+                                to={`/${project.key}/${item.link}`}
                             >
                                 {item.label}
                             </Button>
