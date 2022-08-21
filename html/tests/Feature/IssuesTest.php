@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Issue;
+use App\Models\Project;
 use App\UseCases\Issue\IndexAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon\Carbon;
@@ -19,6 +20,7 @@ class IssuesTest extends TestCase
     {
         parent::setUp();
 
+        Project::factory(10)->create();
         Issue::factory(100)->create();
     }
 
@@ -36,8 +38,9 @@ class IssuesTest extends TestCase
                         'subject',
                         'status_id',
                         'priority_id',
-                        'project_id',
-                        'due_at'
+                        'project_key',
+                        'due_at',
+                        'project'
                     ]
                 ]
             ]);
@@ -48,12 +51,13 @@ class IssuesTest extends TestCase
      */
     public function 登録できる(): void
     {
+        $project = Project::first();
         $data = [
             'subject' => 'テスト課題',
             'body' => 'テスト内容',
             'status_id' => 1,
             'priority_id' => 1,
-            'project_id' => 1,
+            'project_key' => $project->key,
             'due_at' => '2022-04-01 10:00'
         ];
 

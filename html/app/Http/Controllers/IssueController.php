@@ -9,6 +9,7 @@ use App\UseCases\Issue\StoreAction;
 use App\UseCases\Issue\UpdateAction;
 use App\UseCases\Issue\DestroyAction;
 use App\Http\Requests\IssueRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,9 +19,9 @@ class IssueController extends Controller
      * @param  IndexAction  $action
      * @return JsonResponse
      */
-    public function index(IndexAction $action): JsonResponse
+    public function index(IndexAction $action, Request $request): JsonResponse
     {
-        return response()->json($action());
+        return response()->json($action($request));
     }
 
     /**

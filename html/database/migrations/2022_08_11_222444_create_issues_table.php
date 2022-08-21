@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id')
-                ->references('id')->on('projects')
-                ->unsigned()
+            $table->char('project_key', 10)
+                ->references('key')->on('projects')
                 ->index()
                 ->nullable();
             $table

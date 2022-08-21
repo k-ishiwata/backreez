@@ -15,7 +15,7 @@ class Issue extends Model
         'body',
         'status_id',
         'priority_id',
-        'project_id',
+        'project_key',
         'due_at'
     ];
 
@@ -28,6 +28,6 @@ class Issue extends Model
      */
     public function project(): BelongsTo
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'project_key', 'key');
     }
 }
