@@ -22,7 +22,7 @@ class IssueFactory extends Factory
         $projects = Project::get()->pluck('key');
 
         return [
-            'subject' => $this->faker->realText(rand(20, 200)),
+            'subject' => $this->faker->realText(rand(20, 60)),
             'body' => $this->faker->realText(rand(200, 800)),
             'status_id' => $this->faker->numberBetween(1, 4),
             'priority_id' => $this->faker->boolean(80)

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class IndexAction
 {
     // 表示数
-    const DISPLAY_NUMBER = 60;
+    const DISPLAY_NUMBER = 20;
 
     /**
      * 課題一覧
@@ -25,8 +25,14 @@ class IndexAction
                 'id',
                 'key',
                 'name'
-            )
+            ),
+            'status' => fn ($q) => $q->select(
+                'id',
+                'name',
+                'color'
+            ),
         ])->select(
+            'id',
             'subject',
             'status_id',
             'priority_id',

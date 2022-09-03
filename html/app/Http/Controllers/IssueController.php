@@ -16,7 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 class IssueController extends Controller
 {
     /**
-     * @param  IndexAction  $action
+     * @param IndexAction $action
+     * @param Request $request
      * @return JsonResponse
      */
     public function index(IndexAction $action, Request $request): JsonResponse

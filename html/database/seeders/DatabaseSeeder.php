@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(IssueStatusSeeder::class);
         \App\Models\Project::factory(10)->create();
         \App\Models\Issue::factory(200)->create();
     }
