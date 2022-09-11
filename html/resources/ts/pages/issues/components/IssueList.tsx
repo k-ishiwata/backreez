@@ -46,15 +46,16 @@ export const IssueList: React.FC = () => {
                 className={classes.wrapper}
             >
                 <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>件名</th>
-                    <th>状態</th>
-                    <th>担当者</th>
-                    <th>期限</th>
-                    <th>登録日</th>
-                    <th>アクション</th>
-                </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>件名</th>
+                        <th>状態</th>
+                        <th>担当者</th>
+                        <th>優先度</th>
+                        <th>期限</th>
+                        <th>登録日</th>
+                        <th>アクション</th>
+                    </tr>
                 </thead>
                 <tbody>
                 {issues.map((issue, index) => (

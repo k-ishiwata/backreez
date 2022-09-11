@@ -43,6 +43,13 @@ class IssueController extends Controller
      */
     public function show(Issue $issue): JsonResponse
     {
+        $issue->load([
+            'status' => fn ($q) => $q->select(
+                'id',
+                'name',
+                'color'
+            ),
+        ]);
         return response()->json($issue);
     }
 

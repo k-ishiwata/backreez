@@ -5,10 +5,19 @@ import {
 
 export default createStyles((theme: MantineTheme) => {
     return {
-        wrapper: {
+        body: {
             background: theme.other.secondaryBG,
             border: theme.other.line,
+            padding: 50,
             marginBottom: 20
         },
+        info: {
+            marginTop: 40,
+            '> div': {
+                width: '100%',
+                borderTop: theme.other.line,
+                borderBottom: theme.other.line,
+            }
+        }
     }
 })

@@ -6,6 +6,7 @@ import DashboardPage from '@/pages/dashboard'
 import ProjectsPage from '@/pages/projects'
 import HomePage from '@/pages/home'
 import IssuesPage from '@/pages/issues'
+import IssueShowPage from '@/pages/issues/show'
 import SettingsPage from '@/pages/settings'
 
 export const routes: RouteObject[] = [
@@ -28,7 +29,16 @@ export const routes: RouteObject[] = [
                         element: <HomePage />
                     }, {
                         path: 'issues',
-                        element: <IssuesPage />
+                        children: [
+                            {
+                                index: true,
+                                element: <IssuesPage />
+                            },
+                            {
+                                path: ':issueId',
+                                element: <IssueShowPage />
+                            }
+                        ]
                     }, {
                         path: 'settings',
                         element: <SettingsPage />

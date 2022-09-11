@@ -29,6 +29,7 @@ const App: React.FC = () => {
     })
 
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light')
+    const dark = colorScheme === 'dark'
 
     // ダークモード切り替え
     const toggleColorScheme = (value?: ColorScheme) => {
@@ -40,7 +41,14 @@ const App: React.FC = () => {
         <QueryClientProvider client={queryClient}>
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
                 <MantineProvider
-                    theme={{ colorScheme }}
+                    theme={{
+                        colorScheme,
+                        primaryColor: 'blue',
+                        other: {
+                            secondaryBG: dark ? '#222' : '#fff',
+                            line: `solid 1px ${dark ? '#373A40' : '#DEE2E6'}`
+                        },
+                    }}
                     withGlobalStyles
                     withNormalizeCSS
                 >
