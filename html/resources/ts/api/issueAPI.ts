@@ -29,9 +29,15 @@ const updateIssue = async ({id, issue}: {
     return data
 }
 
+const deleteIssue = async (id: number) => {
+    const { data } = await axios.delete<Issue>(`${API_URI}/${id}`)
+    return data
+}
+
 export {
     getIssues,
     getIssue,
     createIssue,
-    updateIssue
+    updateIssue,
+    deleteIssue
 }

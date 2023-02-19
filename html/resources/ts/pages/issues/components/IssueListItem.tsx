@@ -6,6 +6,8 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/ja'
 import { Link } from 'react-router-dom'
 import { Priority } from '@/components/elements/Priority'
+import { useConfirmModal } from '@/hooks/modals'
+import { useDeleteIssue } from '@/queries/issueQuery'
 import type { Issue } from '@/types/Issue'
 
 type Props = {
@@ -15,6 +17,9 @@ type Props = {
 export const IssueListItem: React.FC<Props> = ({
     issue
 }) => {
+    const deleteIssue = useDeleteIssue()
+    const { deleteModal } = useConfirmModal<Issue>(deleteIssue)
+
     return (
         <tr>
             <td width={60}>
@@ -37,7 +42,10 @@ export const IssueListItem: React.FC<Props> = ({
             <td width={140}>
                 <Group spacing="xs">
                     {/*<Button variant="outline" size="xs" component="a" onClick={() => handleEditModal(issue)}>編集</Button>*/}
-                    <Button color="red" size="xs">削除</Button>
+                    <Button
+                        color="red" size="xs"
+                        onClick={() => deleteModal(issue)}
+                    >削除</Button>
                 </Group>
             </td>
         </tr>

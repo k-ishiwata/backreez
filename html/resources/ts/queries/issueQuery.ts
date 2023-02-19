@@ -54,9 +54,24 @@ const useUpdateIssue = (
     })
 }
 
+const useDeleteIssue = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation(api.deleteIssue, {
+        onError: (error: AxiosError) => {
+            showNotification(errorMessage('データの削除に失敗しました。'))
+        },
+        onSuccess: () => {
+            showNotification(successMessage('データの削除に成功しました。'))
+            queryClient.invalidateQueries('issues')
+        }
+    })
+}
+
 export {
     useIssues,
     useIssue,
     useCreateIssue,
-    useUpdateIssue
+    useUpdateIssue,
+    useDeleteIssue
 }

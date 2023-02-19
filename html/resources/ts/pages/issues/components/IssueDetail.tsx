@@ -18,7 +18,7 @@ import {
 import { Priority } from '@/components/elements/Priority'
 import useStyles from './IssueDetail.styles'
 import { InputModal } from "./InputModal"
-import { useContentModal } from "@/hooks/modals"
+import { useContentModal } from '@/hooks/modals'
 
 export const IssueDetail: React.FC = () => {
     const { classes } = useStyles()
@@ -47,13 +47,15 @@ export const IssueDetail: React.FC = () => {
                         <span>編集日：{dayjs(issue.updated_at).format('YYYY/MM/DD')}</span>
                     </Group>
                 </Grid.Col>
-                <Grid.Col span={6} style={{textAlign: 'right'}}>
-                    <Button component="a"
-                        onClick={() => openModal({
-                            title: '編集',
-                            children: <InputModal editItem={issue} />,
-                            size: '70%'
-                        })}>編集</Button>
+                <Grid.Col span={6}>
+                    <Group position="right" spacing="xs">
+                        <Button component="a"
+                            onClick={() => openModal({
+                                title: '編集',
+                                children: <InputModal editItem={issue} />,
+                                size: '70%'
+                            })}>編集</Button>
+                    </Group>
                 </Grid.Col>
             </Grid>
 
