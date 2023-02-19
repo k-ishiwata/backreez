@@ -9,7 +9,8 @@ export default createStyles((theme: MantineTheme) => {
             background: theme.other.secondaryBG,
             border: theme.other.line,
             padding: 50,
-            marginBottom: 20
+            marginBottom: 20,
+            whiteSpace: 'pre-wrap'
         },
         info: {
             marginTop: 40,

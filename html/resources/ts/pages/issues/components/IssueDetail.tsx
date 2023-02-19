@@ -63,7 +63,7 @@ export const IssueDetail: React.FC = () => {
 
             <div className={classes.body}>
                 <TypographyStylesProvider>
-                    <div dangerouslySetInnerHTML={{__html: issue.body || ''}} />
+                    {issue.body}
                 </TypographyStylesProvider>
 
                 <Group noWrap spacing="xl" className={classes.info}>

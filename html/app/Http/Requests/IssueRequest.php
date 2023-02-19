@@ -26,7 +26,7 @@ class IssueRequest extends FormRequest
         return [
             'subject'     => 'required|max:255',
             'body'        => 'string|max:4000',
-            'status_id'   => 'required|integer',
+            'status_id'   => 'nullable|integer',
             'priority_id' => 'nullable|integer',
             'project_key' => 'required|string',
             'due_at'      => 'nullable|date',

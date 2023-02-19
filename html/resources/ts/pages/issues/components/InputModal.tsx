@@ -20,6 +20,7 @@ import type { Issue } from 'types/Issue'
 import type { IssueSchema } from '@/validations/IssueSchema'
 import dayjs from 'dayjs'
 import ja from 'dayjs/locale/ja'
+import { useLocation } from 'react-router-dom'
 dayjs.locale(ja)
 
 type Props = {
@@ -35,6 +36,9 @@ export const InputModal: React.FC<Props> = ({
         resolver: zodResolver(issueSchema)
     })
 
+    // URLからプロジェクトキーを取得
+    const projectKey = useLocation().pathname.split('/')[1]
+
     const updateIssue = useUpdateIssue(setError)
     const createIssue = useCreateIssue(setError)
 
@@ -46,6 +50,7 @@ export const InputModal: React.FC<Props> = ({
                 issue: {...editItem, ...data}
             })
         } else {
+            data.project_key = projectKey
             createIssue.mutate(data)
         }
     }
@@ -69,18 +74,18 @@ export const InputModal: React.FC<Props> = ({
                     {...register('body')}
                 />
 
-                <Group>
+                <Group align="top">
                     <Controller
                         control={control}
                         name="status_id"
-                        defaultValue={String(editItem?.status_id)}
+                        defaultValue={editItem?.status_id}
                         render={({
                             field: { onChange, value, name },
                         }) => (
                             <Select
                                 name={name}
-                                value={value}
-                                onChange={onChange}
+                                value={String(value)}
+                                onChange={value => onChange(Number(value))}
                                 label="ステータス"
                                 data={[
                                     { value: '1', label: '未対応' },
@@ -103,7 +108,7 @@ export const InputModal: React.FC<Props> = ({
                             <Select
                                 name={name}
                                 value={String(value)}
-                                onChange={(item) => onChange(Number(item))}
+                                onChange={value => onChange(Number(value))}
                                 label="優先度"
                                 data={prioritySelect}
                                 error={errors.priority_id?.message}
@@ -115,7 +120,7 @@ export const InputModal: React.FC<Props> = ({
                     <TextInput
                         label="期限"
                         type="datetime-local"
-                        defaultValue={dayjs(editItem?.due_at).format('YYYY-MM-DD HH:mm:00')}
+                        defaultValue={editItem?.due_at && dayjs(editItem?.due_at).format('YYYY-MM-DD HH:mm:00')}
                         {...register('due_at')}
                         error={errors.due_at?.message}
                     />

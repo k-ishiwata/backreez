@@ -12,7 +12,7 @@ export type Issue = {
     body?: string
     status_id: number
     status: IssueStatus
-    project_key: number
+    project_key: string
     priority_id?: number
     user: string
     due_at?: Date

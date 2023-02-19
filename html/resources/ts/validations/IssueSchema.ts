@@ -7,9 +7,10 @@ export const issueSchema = z.object({
     body: z.string()
         .min(1, { message: '必ず入力してください。'})
         .max(4000, { message: '4000文字以内で入力してください。'}),
-    status_id: z.string(),
+    status_id: z.number().nullish(),
     priority_id: z.number().nullish(),
     due_at: z.string(),
+    project_key: z.string().nullish(),
 })
 
 export type IssueSchema = z.infer<typeof issueSchema>
