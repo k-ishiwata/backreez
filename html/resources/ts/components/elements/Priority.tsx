@@ -7,16 +7,31 @@ export const priorities = [
     '高',
 ]
 
+// セレクトボックス用
+export const prioritySelect = priorities.map((item, key) => {
+    return {
+        value: String(key),
+        label: item,
+    }
+}).filter(i => i?.label !== '')
+
+const heightPriority = 3
+
 type Props = {
-    priority_id?: number
+    selectedId?: number
 }
 
 export const Priority: React.FC<Props> = ({
-    priority_id
+    selectedId
 }) => {
+    if (! selectedId) {
+        return null
+    }
+
     let style = {}
 
-    if (priorities.length - 1 === priority_id) {
+    // 優先度高はスタイル変える
+    if (selectedId === heightPriority) {
         style = {
             color: 'red',
             fontWeight: 'bold'
@@ -25,7 +40,8 @@ export const Priority: React.FC<Props> = ({
 
     return (
         <span style={style}>
-            { priority_id ? (priorities[priority_id] || '') : '' }
+            {/*{priorities.find(item => item.value === selectedId)?.label}*/}
+            {priorities[selectedId]}
         </span>
     )
 }

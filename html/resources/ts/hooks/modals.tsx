@@ -50,16 +50,18 @@ export const useContentModal = () => {
     const modals = useBaseModals()
 
     const openModal = ({
-       title,
-       children
+        title,
+        children,
+        size = 'lg'
     }: {
         title: string
         children: ReactNode
+        size?: string
     }) => {
         modals.openModal({
             title: title,
             children: children,
-            size: 'lg',
+            size: size,
             ...modalOption,
             styles: () => ({
                 title: {

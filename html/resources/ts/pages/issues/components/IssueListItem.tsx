@@ -30,7 +30,7 @@ export const IssueListItem: React.FC<Props> = ({
             </td>
             <td width={120}>{issue.user}</td>
             <td width={80}>
-                <Priority priority_id={issue.priority_id} />
+                <Priority selectedId={issue.priority_id} />
             </td>
             <td width={80}>{issue.due_at && dayjs(issue.due_at).format('YYYY/MM/DD')}</td>
             <td width={80}>{dayjs(issue.created_at).format('YYYY/MM/DD')}</td>
