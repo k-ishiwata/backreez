@@ -114,7 +114,7 @@ class IssuesTest extends TestCase
             ->assertUnprocessable()
             ->assertInvalid([
                 'subject'  => 'この項目は必須です。',
-                'status_id' => 'この項目は必須です。',
+                'project_key' => 'この項目は必須です。',
             ]);
     }
 
