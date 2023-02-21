@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Issue>
@@ -22,8 +22,8 @@ class IssueFactory extends Factory
         $projects = Project::get()->pluck('key');
 
         return [
-            'subject' => $this->faker->realText(rand(20, 60)),
-            'body' => $this->faker->realText(rand(200, 800)),
+            'subject' => $this->faker->realText(random_int(20, 60)),
+            'body' => $this->faker->realText(random_int(200, 800)),
             'status_id' => $this->faker->numberBetween(1, 4),
             'priority_id' => $this->faker->boolean(80)
                 ? $this->faker->numberBetween(1, 3) : null,

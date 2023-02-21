@@ -1,14 +1,15 @@
-<?php /** @noinspection NonAsciiCharacters */
+<?php
+
 declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Issue;
 use App\Models\Project;
 use App\UseCases\Issue\IndexAction;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class IssuesTest extends TestCase
 {

@@ -54,6 +54,12 @@
             "@php artisan cache:clear",
             "@php artisan view:clear"
         ],
+        "pint": [
+            "./vendor/bin/pint -v"
+        ],
+        "pint-test": [
+            "./vendor/bin/pint --test -v"
+        ],
         "stan": [
             "./vendor/bin/phpstan analyse"
         ]

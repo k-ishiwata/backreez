@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\UseCases\Project;
@@ -11,7 +12,7 @@ class StoreAction
     /**
      * プロジェクト登録
      *
-     * @param  ValidatedInput $request
+     * @param  ValidatedInput  $request
      * @return Project
      */
     public function __invoke(ValidatedInput $request): Project

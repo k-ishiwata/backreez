@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\UseCases\Issue;
 
 use App\Models\Issue;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class IndexAction
 {
@@ -15,7 +16,7 @@ class IndexAction
     /**
      * 課題一覧
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return LengthAwarePaginator
      */
     public function __invoke(Request $request): LengthAwarePaginator

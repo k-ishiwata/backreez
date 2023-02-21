@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use App\UseCases\Project\DestroyAction;
 use App\UseCases\Project\IndexAction;
 use App\UseCases\Project\StoreAction;
 use App\UseCases\Project\UpdateAction;
-use App\UseCases\Project\DestroyAction;
-use App\Http\Requests\ProjectRequest;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 

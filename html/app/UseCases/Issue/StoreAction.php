@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\UseCases\Issue;
@@ -11,7 +12,7 @@ class StoreAction
     /**
      * 課題登録
      *
-     * @param  ValidatedInput $request
+     * @param  ValidatedInput  $request
      * @return Issue
      */
     public function __invoke(ValidatedInput $request): Issue

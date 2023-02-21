@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
+use App\Http\Controllers\IssueController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ {
-    ProjectController,
-    IssueController
-};
 
 /*
 |--------------------------------------------------------------------------

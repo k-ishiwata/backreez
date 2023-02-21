@@ -1,23 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IssueRequest;
 use App\Models\Issue;
+use App\UseCases\Issue\DestroyAction;
 use App\UseCases\Issue\IndexAction;
 use App\UseCases\Issue\StoreAction;
 use App\UseCases\Issue\UpdateAction;
-use App\UseCases\Issue\DestroyAction;
-use App\Http\Requests\IssueRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class IssueController extends Controller
 {
     /**
-     * @param IndexAction $action
-     * @param Request $request
+     * @param  IndexAction  $action
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function index(IndexAction $action, Request $request): JsonResponse

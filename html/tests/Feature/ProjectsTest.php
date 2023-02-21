@@ -1,12 +1,13 @@
-<?php /** @noinspection NonAsciiCharacters */
+<?php
+
 declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Project;
 use App\UseCases\Project\IndexAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ProjectsTest extends TestCase
 {
