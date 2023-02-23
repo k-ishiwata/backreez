@@ -2,7 +2,7 @@ import * as api from '@/api/projectAPI'
 import { AxiosError } from 'axios'
 import { closeAllModals } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
-import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { successMessage, errorMessage } from '@/utils/notificationMessages'
 import { setValidationError } from '@/utils/axios'
 import type { ProjectSchema } from '@/validations/ProjectSchema'
@@ -24,7 +24,7 @@ const useCreateProject = (
         },
         onSuccess: () => {
             showNotification(successMessage('データの登録に成功しました。'))
-            queryClient.invalidateQueries('projects')
+            queryClient.invalidateQueries(['projects'])
 
             closeAllModals()
         }
@@ -43,7 +43,7 @@ const useUpdateProject = (
         },
         onSuccess: () => {
             showNotification(successMessage('データの更新に成功しました。'))
-            queryClient.invalidateQueries('projects')
+            queryClient.invalidateQueries(['projects'])
 
             closeAllModals()
         }
@@ -60,7 +60,7 @@ const useDeleteProject = () => {
         },
         onSuccess: () => {
             showNotification(successMessage('データの削除に成功しました。'))
-            queryClient.invalidateQueries('projects')
+            queryClient.invalidateQueries(['projects'])
         }
     })
 }

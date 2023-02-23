@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 import { Text } from '@mantine/core'
 import { useModals as useBaseModals } from '@mantine/modals'
-import type { UseMutationResult } from 'react-query/types/react/types'
+import type { UseMutationResult } from '@tanstack/react-query/src/types'
 import { ReactNode } from "react"
 
 export const modalOption = {
@@ -13,7 +13,7 @@ export const modalOption = {
  * 確認モーダル
  */
 export const useConfirmModal = <T extends { id: number }>(
-    confirmAcrion: UseMutationResult<T, AxiosError, number>
+    confirmAction: UseMutationResult<T, AxiosError, number>
 ) => {
     const modals = useBaseModals()
 
@@ -26,7 +26,7 @@ export const useConfirmModal = <T extends { id: number }>(
                 ),
                 labels: { confirm: '削除する', cancel: 'キャンセル' },
                 confirmProps: { color: 'red' },
-                onConfirm: () => confirmAcrion.mutate(item.id),
+                onConfirm: () => confirmAction.mutate(item.id),
                 ...modalOption,
                 styles: () => ({
                     title: {

@@ -11,7 +11,7 @@ import { ModalsProvider } from '@mantine/modals'
 import {
     QueryClient,
     QueryClientProvider
-} from 'react-query'
+} from '@tanstack/react-query'
 
 const App: React.FC = () => {
     const router = useRoutes(routes)

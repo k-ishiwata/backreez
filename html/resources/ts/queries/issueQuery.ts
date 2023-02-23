@@ -1,5 +1,5 @@
 import * as api from '@/api/issueAPI'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { UseFormSetError } from 'react-hook-form/dist/types/form'
 import { IssueSchema } from '@/validations/IssueSchema'
 import { AxiosError } from 'axios'
@@ -28,7 +28,7 @@ const useCreateIssue = (
         },
         onSuccess: () => {
             showNotification(successMessage('データの登録に成功しました。'))
-            queryClient.invalidateQueries('issues')
+            queryClient.invalidateQueries(['issues'])
 
             closeAllModals()
         }
@@ -63,7 +63,7 @@ const useDeleteIssue = () => {
         },
         onSuccess: () => {
             showNotification(successMessage('データの削除に成功しました。'))
-            queryClient.invalidateQueries('issues')
+            queryClient.invalidateQueries(['issues'])
         }
     })
 }
