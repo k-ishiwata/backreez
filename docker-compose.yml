@@ -8,6 +8,7 @@ services:
       dockerfile: ./docker/web/Dockerfile
     ports:
       - 8080:80
+      - 5173:5173
     volumes:
       - ./html:/var/www/html
       - vendor-store:/var/www/html/vendor

@@ -1,8 +1,7 @@
 /node_modules
+/public/build
 /public/hot
 /public/storage
-/public/css
-/public/js
 /storage/*.key
 /vendor
 .env
@@ -14,4 +13,3 @@ npm-debug.log
 yarn-error.log
 _ide_helper.php
 _ide_helper_models.php
-mix-manifest.json

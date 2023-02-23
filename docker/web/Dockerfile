@@ -1,4 +1,5 @@
 FROM php:8.1-apache
+EXPOSE 5173
 COPY /docker/web/php.ini /usr/local/etc/php/
 
 COPY /docker/web/httpd/*.conf /etc/apache2/sites-available/
@@ -12,9 +13,6 @@ RUN apt-get update \
 
 # Composer install
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-#ENV COMPOSER_ALLOW_SUPERUSER 1
-#ENV COMPOSER_HOME /composer
-#ENV PATH $PATH:/composer/vendor/bin
 
 # Node&yarn install
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
