@@ -20,24 +20,22 @@ import type { Issue } from 'types/Issue'
 import type { IssueSchema } from '@/validations/IssueSchema'
 import dayjs from 'dayjs'
 import ja from 'dayjs/locale/ja'
-import { useLocation } from 'react-router-dom'
 dayjs.locale(ja)
 
 type Props = {
-    editItem?: Issue | null
+    editItem?: Issue,
+    projectKey?: string
 }
 
 export const InputModal: React.FC<Props> = ({
-    editItem
+    editItem,
+    projectKey
 }) => {
     const {
         register, handleSubmit, formState: { errors }, setError, control
     } = useForm<IssueSchema>({
         resolver: zodResolver(issueSchema)
     })
-
-    // URLからプロジェクトキーを取得
-    const projectKey = useLocation().pathname.split('/')[1]
 
     const updateIssue = useUpdateIssue(setError)
     const createIssue = useCreateIssue(setError)

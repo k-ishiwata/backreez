@@ -10,8 +10,10 @@ export const setValidationError = (
     error: AxiosError,
     setError: UseFormSetError<any>
 ) => {
-    if (error.response?.data.errors) {
-        Object.entries(error.response?.data.errors).map(([key, value]) => {
+    const errors: any = error.response?.data
+
+    if (errors.errors) {
+        Object.entries(errors.errors).map(([key, value]) => {
             const tempValue = value as string[]
             setError(key, {
                 type: 'focus',

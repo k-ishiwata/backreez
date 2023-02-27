@@ -1,6 +1,6 @@
 import React from 'react'
 import { Sidebar, NavItem } from '@/components/layouts/Sidebar'
-import { useLocation, Outlet } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import {
     IoHomeOutline,
     IoBuildOutline,
@@ -9,7 +9,7 @@ import {
 
 export const ProjectLayout: React.FC = () => {
     // URLからプロジェクトキーを取得
-    const projectKey = useLocation().pathname.split('/')[1]
+    const { projectKey } = useParams()
 
     return (
         <div>

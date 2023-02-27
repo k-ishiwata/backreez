@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthenticatedController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::any('{all}', function () {
     return view('app');
 })->where(['all' => '^(?!api/*).*']);
+
+Route::controller(AuthenticatedController::class)
+    ->prefix('api')
+    ->name('api.')
+    ->group(function () {
+        // ログイン認証
+        Route::post('login', 'login')->name('login');
+        // ログアウト
+        Route::post('logout', 'logout')->name('logout');
+    });

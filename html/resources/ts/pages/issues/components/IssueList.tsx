@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useIssues } from '@/queries/issueQuery'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import {
     Loader,
     Table,
@@ -18,7 +18,7 @@ export const IssueList: React.FC = () => {
     const pageParam = params.get('page') || 1
 
     // URLからプロジェクトキーを取得
-    const projectKey = useLocation().pathname.split('/')[1]
+    const { projectKey } = useParams()
 
     // 現在のページ
     const [page, setPage] = useState<number>(Number(pageParam))

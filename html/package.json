@@ -24,7 +24,7 @@
         "react-dom": "^18.1.0",
         "react-hook-form": "^7.33.1",
         "react-icons": "^4.4.0",
-        "react-router-dom": "6",
+        "react-router-dom": "^6.8.1",
         "sass": "^1.52.3",
         "ts-jest": "^28.0.4",
         "vite": "^4.0.0",

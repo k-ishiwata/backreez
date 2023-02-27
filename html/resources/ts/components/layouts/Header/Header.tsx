@@ -16,10 +16,14 @@ import {
 } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
 import useStyles from './Header.styles'
+import { useLogout } from "@/queries/authQuery"
 
 export const Header: React.FC= () => {
     const { classes } = useStyles()
     const { colorScheme, toggleColorScheme } = useMantineColorScheme()
+    const logout = useLogout()
+
+    const handleLogout = () => logout.mutate()
 
     return (
         <BaseHeader
@@ -46,7 +50,7 @@ export const Header: React.FC= () => {
                     </Menu.Target>
                     <Menu.Dropdown>
                         <Menu.Item icon={<IoSettingsOutline />}>設定</Menu.Item>
-                        <Menu.Item icon={<IoLogOutOutline />}>ログアウト</Menu.Item>
+                        <Menu.Item icon={<IoLogOutOutline />} onClick={handleLogout}>ログアウト</Menu.Item>
                     </Menu.Dropdown>
                 </Menu>
             </Group>

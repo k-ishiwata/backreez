@@ -7,9 +7,13 @@ import {
 import { IssueList } from './components/IssueList'
 import { InputModal } from '@/pages/issues/components/InputModal'
 import { useContentModal } from '@/hooks/modals'
+import { useParams } from "react-router-dom"
 
 const IssuesPage: React.FC = () => {
     const { openModal } = useContentModal()
+
+    // URLからプロジェクトキーを取得
+    const { projectKey } = useParams()
 
     return (
         <>
@@ -18,7 +22,7 @@ const IssuesPage: React.FC = () => {
                 <div>
                     <Button onClick={() => openModal({
                         title: '新規作成',
-                        children: <InputModal />,
+                        children: <InputModal projectKey={projectKey} />,
                         size: '70%'
                     })}>新規作成</Button>
                 </div>

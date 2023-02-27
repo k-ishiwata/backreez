@@ -1,5 +1,6 @@
 import React from 'react'
-import type { RouteObject } from 'react-router-dom'
+import { redirect, createBrowserRouter } from 'react-router-dom'
+import { getAuthUser } from '@/queries/authQuery'
 import { MainLayout } from '@/components/layouts/MainLayout'
 import { ProjectLayout } from '@/components/layouts/ProjectLayout'
 import DashboardPage from '@/pages/dashboard'
@@ -8,11 +9,44 @@ import HomePage from '@/pages/home'
 import IssuesPage from '@/pages/issues'
 import IssueShowPage from '@/pages/issues/show'
 import SettingsPage from '@/pages/settings'
+import LoginPage from '@/pages/login'
 
-export const routes: RouteObject[] = [
+/**
+ * ログイン済みのみアクセス可能
+ */
+const guardLoader = async () => {
+    const user = await getAuthUser()
+
+    if (! user) {
+        return redirect('/login')
+    }
+
+    return true
+}
+
+/**
+ * ログインしていない場合のみアクセス可能
+ */
+const guestLoader = async () => {
+    const user = await getAuthUser()
+
+    if (user) {
+        return redirect('/')
+    }
+
+    return true
+}
+
+export const router = createBrowserRouter([
     {
+        path: 'login',
+        element: <LoginPage />,
+        loader: guestLoader
+    }, {
         path: '/',
         element: <MainLayout />,
+        loader: guardLoader,
+        errorElement: <h1>404 not found</h1>,
         children: [
             {
                 index: true,
@@ -21,7 +55,7 @@ export const routes: RouteObject[] = [
                 path: 'projects',
                 element: <ProjectsPage />
             }, {
-                path: ':projectId',
+                path: ':projectKey',
                 element: <ProjectLayout />,
                 children: [
                     {
@@ -47,4 +81,4 @@ export const routes: RouteObject[] = [
             }
         ]
     }
-]
+])

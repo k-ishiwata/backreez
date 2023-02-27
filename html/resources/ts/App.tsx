@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useRoutes } from 'react-router-dom'
-import { routes } from './routes'
+import { RouterProvider } from 'react-router-dom'
+import { router } from './routes'
 import {
     MantineProvider,
     ColorScheme,
@@ -9,25 +9,11 @@ import {
 import { NotificationsProvider } from '@mantine/notifications'
 import { ModalsProvider } from '@mantine/modals'
 import {
-    QueryClient,
     QueryClientProvider
 } from '@tanstack/react-query'
+import queryClient from '@/queries/queryClient'
 
 const App: React.FC = () => {
-    const router = useRoutes(routes)
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                retry: false,
-                // Windowフォーカス時再取得しない
-                refetchOnWindowFocus: false
-            },
-            mutations: {
-                retry: false
-            }
-        }
-    })
-
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light')
     const dark = colorScheme === 'dark'
 
@@ -35,7 +21,7 @@ const App: React.FC = () => {
     const toggleColorScheme = (value?: ColorScheme) => {
         const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark')
         setColorScheme(nextColorScheme);
-    };
+    }
 
     return (
         <QueryClientProvider client={queryClient}>
@@ -54,7 +40,7 @@ const App: React.FC = () => {
                 >
                     <NotificationsProvider>
                         <ModalsProvider>
-                            <div>{router}</div>
+                            <RouterProvider router={router} />
                         </ModalsProvider>
                     </NotificationsProvider>
                 </MantineProvider>
