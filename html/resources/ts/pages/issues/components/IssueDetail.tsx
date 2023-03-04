@@ -94,7 +94,7 @@ export const IssueDetail: React.FC = () => {
                                 </tr>
                                 <tr>
                                     <td>担当者</td>
-                                    <td></td>
+                                    <td>{issue.user?.name}</td>
                                 </tr>
                                 <tr>
                                     <td>編集日</td>

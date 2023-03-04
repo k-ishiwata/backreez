@@ -20,8 +20,8 @@ class ProjectFactory extends Factory
 
         return [
             'key' => $this->faker->regexify('[A-Z]{6}'),
-            'name' => $this->faker->realText(rand(10, 30)),
-            'description' => $this->faker->realText(rand(100, 255)),
+            'name' => $this->faker->realText(random_int(10, 30)),
+            'description' => $this->faker->realText(random_int(100, 255)),
             'created_at' => $randomDate,
             'updated_at' => $randomDate
         ];

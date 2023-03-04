@@ -17,7 +17,8 @@ class Issue extends Model
         'status_id',
         'priority_id',
         'project_key',
-        'due_at'
+        'due_at',
+        'user_id',
     ];
 
     protected $casts = [
@@ -38,5 +39,13 @@ class Issue extends Model
     public function status(): HasOne
     {
         return $this->hasOne(IssueStatus::class, 'id', 'status_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

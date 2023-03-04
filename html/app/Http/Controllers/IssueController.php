@@ -31,9 +31,14 @@ class IssueController extends Controller
      * @param  IssueRequest  $request
      * @return JsonResponse
      */
-    public function store(StoreAction $action, IssueRequest $request): JsonResponse
-    {
-        return response()->json($action($request->safe()), Response::HTTP_CREATED);
+    public function store(
+        StoreAction $action,
+        IssueRequest $request
+    ): JsonResponse {
+        return response()->json(
+            $action($request->safe()),
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -45,11 +50,8 @@ class IssueController extends Controller
     public function show(Issue $issue): JsonResponse
     {
         $issue->load([
-            'status' => fn ($q) => $q->select(
-                'id',
-                'name',
-                'color'
-            ),
+            'status:id,name,color',
+            'user:id,name',
         ]);
         return response()->json($issue);
     }
@@ -60,8 +62,11 @@ class IssueController extends Controller
      * @param  Issue  $issue
      * @return JsonResponse
      */
-    public function update(UpdateAction $action, IssueRequest $request, Issue $issue): JsonResponse
-    {
+    public function update(
+        UpdateAction $action,
+        IssueRequest $request,
+        Issue $issue
+    ): JsonResponse {
         return response()->json($action($request->safe(), $issue));
     }
 
@@ -70,8 +75,10 @@ class IssueController extends Controller
      * @param  Issue  $issue
      * @return JsonResponse
      */
-    public function destroy(DestroyAction $action, Issue $issue): JsonResponse
-    {
+    public function destroy(
+        DestroyAction $action,
+        Issue $issue
+    ): JsonResponse {
         return response()->json($action($issue));
     }
 }

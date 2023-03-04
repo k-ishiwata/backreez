@@ -11,7 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class IndexAction
 {
     // 表示数
-    const DISPLAY_NUMBER = 20;
+    public const DISPLAY_NUMBER = 20;
 
     /**
      * 課題一覧
@@ -22,16 +22,9 @@ class IndexAction
     public function __invoke(Request $request): LengthAwarePaginator
     {
         $query = Issue::with([
-            'project' => fn ($q) => $q->select(
-                'id',
-                'key',
-                'name'
-            ),
-            'status' => fn ($q) => $q->select(
-                'id',
-                'name',
-                'color'
-            ),
+            'project:id,key,name',
+            'status:id,name,color',
+            'user:id,name'
         ])->select(
             'id',
             'subject',
@@ -39,12 +32,13 @@ class IndexAction
             'priority_id',
             'project_key',
             'due_at',
+            'user_id',
             'updated_at',
             'created_at'
         );
 
         // project_keyで絞り込む
-        if ($request->anyFilled('project_key')) {
+        if ($request->filled('project_key')) {
             $query->where('project_key', $request->project_key);
         }
 

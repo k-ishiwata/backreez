@@ -2,6 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Issue;
+use App\Models\IssueStatus;
+use App\Models\Project;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,7 +20,17 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserSeeder::class);
         $this->call(IssueStatusSeeder::class);
-        \App\Models\Project::factory(10)->create();
-        \App\Models\Issue::factory(200)->create();
+
+        $users = User::all();
+        $issueStatus = IssueStatus::all();
+        $projects = Project::factory(10)->create();
+
+        Issue::factory(200)
+            ->recycle($users)
+            ->recycle($issueStatus)
+            ->state(new Sequence(
+                fn () => ['project_key' => $projects->random()->key],
+            ))
+            ->create();
     }
 }

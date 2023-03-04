@@ -1,4 +1,4 @@
-import { Pager } from "@/types/Pager"
+import { Pager } from '@/types/Pager'
 
 export type IssueStatus = {
     id: number
@@ -14,7 +14,10 @@ export type Issue = {
     status: IssueStatus
     project_key: string
     priority_id?: number
-    user: string
+    user?: {
+        id: number
+        name: string
+    }
     due_at?: Date
     created_at: Date
     updated_at: Date

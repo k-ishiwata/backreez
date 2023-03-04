@@ -32,6 +32,7 @@ class IssueRequest extends FormRequest
             'priority_id' => 'nullable|integer',
             'project_key' => 'required|string',
             'due_at'      => 'nullable|date',
+            'user_id'     => 'nullable|integer',
         ];
     }
 }

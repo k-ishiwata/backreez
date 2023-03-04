@@ -37,6 +37,9 @@ return new class extends Migration
             $table->timestamp('due_at')
                 ->nullable()
                 ->comment('期限');
+            $table->foreignId('user_id')
+                ->nullable()
+                ->comment('ユーザーID');
             $table->softDeletes();
             $table->timestamps();
         });

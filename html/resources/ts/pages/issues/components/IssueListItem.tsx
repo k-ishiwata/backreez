@@ -33,7 +33,7 @@ export const IssueListItem: React.FC<Props> = ({
                     {issue.status.name}
                 </Badge>
             </td>
-            <td width={120}>{issue.user}</td>
+            <td width={120}>{issue.user?.name}</td>
             <td width={80}>
                 <Priority selectedId={issue.priority_id} />
             </td>
