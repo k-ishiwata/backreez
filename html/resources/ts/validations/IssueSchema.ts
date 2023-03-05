@@ -11,6 +11,7 @@ export const issueSchema = z.object({
     priority_id: z.number().nullish(),
     due_at: z.string(),
     project_key: z.string().nullish(),
+    user_id: z.number().nullish(),
 })
 
 export type IssueSchema = z.infer<typeof issueSchema>

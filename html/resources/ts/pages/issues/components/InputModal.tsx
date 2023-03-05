@@ -16,6 +16,7 @@ import {
     useUpdateIssue
 } from '@/queries/issueQuery'
 import { issueSchema } from '@/validations/IssueSchema'
+import { UserSelect } from '@/components/elements/UserSelect'
 import type { Issue } from 'types/Issue'
 import type { IssueSchema } from '@/validations/IssueSchema'
 import dayjs from 'dayjs'
@@ -121,6 +122,24 @@ export const InputModal: React.FC<Props> = ({
                         defaultValue={editItem?.due_at && dayjs(editItem?.due_at).format('YYYY-MM-DD HH:mm:00')}
                         {...register('due_at')}
                         error={errors.due_at?.message}
+                    />
+
+                    <Controller
+                        control={control}
+                        name="user_id"
+                        defaultValue={editItem?.user_id}
+                        render={({
+                            field: { onChange, value, name },
+                        }) => (
+                            <UserSelect
+                                name={name}
+                                value={String(value)}
+                                onChange={value => onChange(Number(value))}
+                                label="担当者"
+                                selectedId={editItem?.user?.id}
+                                error={errors.user_id?.message}
+                            />
+                        )}
                     />
                 </Group>
             </Stack>

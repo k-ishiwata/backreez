@@ -9,7 +9,14 @@ type Login = {
     password: string
 }
 
+// セレクトボックス用
+type SelectUser = {
+    value: string
+    label: string
+}
+
 export type {
     User,
-    Login
+    Login,
+    SelectUser
 }

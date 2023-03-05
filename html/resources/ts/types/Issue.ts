@@ -14,6 +14,7 @@ export type Issue = {
     status: IssueStatus
     project_key: string
     priority_id?: number
+    user_id: number
     user?: {
         id: number
         name: string
