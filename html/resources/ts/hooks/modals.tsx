@@ -4,9 +4,9 @@ import { useModals as useBaseModals } from '@mantine/modals'
 import type { UseMutationResult } from '@tanstack/react-query/src/types'
 import { ReactNode } from "react"
 
-export const modalOption = {
-    overlayOpacity: 0.25,
-    overlayBlur: 3
+export const overlayOption = {
+    opacity: 0.25,
+    blur: 3,
 }
 
 /**
@@ -27,7 +27,8 @@ export const useConfirmModal = <T extends { id: number }>(
                 labels: { confirm: '削除する', cancel: 'キャンセル' },
                 confirmProps: { color: 'red' },
                 onConfirm: () => confirmAction.mutate(item.id),
-                ...modalOption,
+                overlayProps: overlayOption,
+                padding: 'xl',
                 styles: () => ({
                     title: {
                         'fontSize': 22,
@@ -62,7 +63,8 @@ export const useContentModal = () => {
             title: title,
             children: children,
             size: size,
-            ...modalOption,
+            overlayProps: overlayOption,
+            padding: 'xl',
             styles: () => ({
                 title: {
                     'fontSize': 22,

@@ -6,8 +6,8 @@ import { AppShell } from '@mantine/core'
 export const MainLayout: React.FC = () => {
     return (
         <AppShell
-            fixed
-            padding="xl"
+            // fixed
+            padding={0}
             // navbar={
             //     <Navbar width={{ base: 240 }} height="100vh" p="xs">
             //         <Navbar.Section grow mt="xs">
@@ -26,7 +26,9 @@ export const MainLayout: React.FC = () => {
                 }
             })}
         >
-            <Outlet />
+            <div style={{padding: 25}}>
+                <Outlet />
+            </div>
         </AppShell>
     )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+    Grid,
     Group,
     Stack,
     Button,
@@ -17,6 +18,7 @@ import {
 } from '@/queries/issueQuery'
 import { issueSchema } from '@/validations/IssueSchema'
 import { UserSelect } from '@/components/elements/UserSelect'
+import { DateTimePicker } from '@mantine/dates'
 import type { Issue } from 'types/Issue'
 import type { IssueSchema } from '@/validations/IssueSchema'
 import dayjs from 'dayjs'
@@ -73,75 +75,95 @@ export const InputModal: React.FC<Props> = ({
                     {...register('body')}
                 />
 
-                <Group align="top">
-                    <Controller
-                        control={control}
-                        name="status_id"
-                        defaultValue={editItem?.status_id}
-                        render={({
-                            field: { onChange, value, name },
-                        }) => (
-                            <Select
-                                name={name}
-                                value={String(value)}
-                                onChange={value => onChange(Number(value))}
-                                label="ステータス"
-                                data={[
-                                    { value: '1', label: '未対応' },
-                                    { value: '2', label: '進行中' },
-                                    { value: '3', label: '処理済み' },
-                                    { value: '4', label: '完了' },
-                                ]}
-                                error={errors.status_id?.message}
-                            />
-                        )}
-                    />
+                <Grid>
+                    <Grid.Col span={3}>
+                        <Controller
+                            control={control}
+                            name="status_id"
+                            defaultValue={editItem?.status_id}
+                            render={({
+                                field: { onChange, value, name },
+                            }) => (
+                                <Select
+                                    name={name}
+                                    value={String(value)}
+                                    onChange={value => onChange(Number(value))}
+                                    label="ステータス"
+                                    data={[
+                                        { value: '1', label: '未対応' },
+                                        { value: '2', label: '進行中' },
+                                        { value: '3', label: '処理済み' },
+                                        { value: '4', label: '完了' },
+                                    ]}
+                                    error={errors.status_id?.message}
+                                />
+                            )}
+                        />
+                    </Grid.Col>
 
-                    <Controller
-                        control={control}
-                        name="priority_id"
-                        defaultValue={editItem?.priority_id}
-                        render={({
-                            field: { onChange, value, name },
-                        }) => (
-                            <Select
-                                name={name}
-                                value={String(value)}
-                                onChange={value => onChange(Number(value))}
-                                label="優先度"
-                                data={prioritySelect}
-                                error={errors.priority_id?.message}
-                                clearable
-                            />
-                        )}
-                    />
+                    <Grid.Col span={3}>
+                        <Controller
+                            control={control}
+                            name="priority_id"
+                            defaultValue={editItem?.priority_id}
+                            render={({
+                                field: { onChange, value, name },
+                            }) => (
+                                <Select
+                                    name={name}
+                                    value={String(value)}
+                                    onChange={value => onChange(Number(value))}
+                                    label="優先度"
+                                    data={prioritySelect}
+                                    error={errors.priority_id?.message}
+                                    clearable
+                                />
+                            )}
+                        />
+                    </Grid.Col>
 
-                    <TextInput
-                        label="期限"
-                        type="datetime-local"
-                        defaultValue={editItem?.due_at && dayjs(editItem?.due_at).format('YYYY-MM-DD HH:mm:00')}
-                        {...register('due_at')}
-                        error={errors.due_at?.message}
-                    />
+                    <Grid.Col span={3}>
+                        <Controller
+                            control={control}
+                            name="due_at"
+                            defaultValue={editItem?.due_at}
+                            render={({
+                                field: {onChange, name}
+                            }) => (
+                                <DateTimePicker
+                                    name={name}
+                                    onChange={value => onChange(value)}
+                                    label="期限"
+                                    defaultValue={editItem?.due_at}
+                                    valueFormat="YYYY/MM/DD HH:mm"
+                                    locale="ja"
+                                    error={errors.due_at?.message}
+                                    clearable
+                                />
+                            )}
+                        />
+                    </Grid.Col>
 
-                    <Controller
-                        control={control}
-                        name="user_id"
-                        defaultValue={editItem?.user_id}
-                        render={({
-                            field: { onChange, value, name },
-                        }) => (
-                            <UserSelect
-                                name={name}
-                                value={String(value)}
-                                onChange={value => onChange(Number(value))}
-                                label="担当者"
-                                selectedId={editItem?.user?.id}
-                                error={errors.user_id?.message}
-                            />
-                        )}
-                    />
-                </Group>
+                    <Grid.Col span={3}>
+                        <Controller
+                            control={control}
+                            name="user_id"
+                            defaultValue={editItem?.user_id}
+                            render={({
+                                field: { onChange, value, name },
+                            }) => (
+                                <UserSelect
+                                    name={name}
+                                    value={String(value)}
+                                    onChange={value => onChange(Number(value))}
+                                    label="担当者"
+                                    selectedId={editItem?.user?.id}
+                                    error={errors.user_id?.message}
+                                />
+                            )}
+                        />
+                    </Grid.Col>
+                </Grid>
             </Stack>
             <Group spacing="xs" mt="lg">
                 <Button type="submit">保存</Button>

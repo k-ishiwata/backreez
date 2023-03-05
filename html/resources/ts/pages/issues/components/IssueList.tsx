@@ -66,7 +66,7 @@ export const IssueList: React.FC = () => {
             {
                 last_page !== 1 &&
                     <Pagination
-                        page={page}
+                        value={page}
                         total={last_page}
                         onChange={handlePagerClick}
                     />

@@ -29,6 +29,7 @@ export const UserSelect: React.FC<Props> = ({
             data={users}
             defaultValue={String(selectedId)}
             clearable
+            searchable
             {...props}
         />
     )

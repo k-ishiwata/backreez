@@ -9,7 +9,7 @@ export const issueSchema = z.object({
         .max(4000, { message: '4000文字以内で入力してください。'}),
     status_id: z.number().nullish(),
     priority_id: z.number().nullish(),
-    due_at: z.string(),
+    due_at: z.date().nullish(),
     project_key: z.string().nullish(),
     user_id: z.number().nullish(),
 })
