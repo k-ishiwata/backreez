@@ -4,7 +4,8 @@ import { router } from './routes'
 import {
     MantineProvider,
     ColorScheme,
-    ColorSchemeProvider
+    ColorSchemeProvider,
+    LoadingOverlay
 } from '@mantine/core'
 import { Notifications } from '@mantine/notifications'
 import { ModalsProvider } from '@mantine/modals'
@@ -12,6 +13,7 @@ import {
     QueryClientProvider
 } from '@tanstack/react-query'
 import queryClient from '@/queries/queryClient'
+import { useLoading } from '@/hooks/loading'
 
 const App: React.FC = () => {
     const [colorScheme, setColorScheme] = useState<ColorScheme>('light')
@@ -22,6 +24,9 @@ const App: React.FC = () => {
         const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark')
         setColorScheme(nextColorScheme);
     }
+
+    // ローディング状態
+    const { isLoading } = useLoading()
 
     return (
         <QueryClientProvider client={queryClient}>
@@ -40,6 +45,7 @@ const App: React.FC = () => {
                 >
                     <ModalsProvider>
                         <Notifications />
+                        <LoadingOverlay visible={isLoading} overlayBlur={2} />
                         <RouterProvider router={router} />
                     </ModalsProvider>
                 </MantineProvider>

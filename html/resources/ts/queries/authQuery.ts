@@ -5,7 +5,8 @@ import { AxiosError } from 'axios'
 import { errorMessage } from '@/utils/notificationMessages'
 import queryClient from '@/queries/queryClient'
 import { setValidationError } from '@/utils/axios'
-import { UseFormSetError } from "react-hook-form/dist/types/form"
+import { UseFormSetError } from 'react-hook-form/dist/types/form'
+import { useLoading } from '@/hooks/loading'
 import type { Login } from '@/types/User'
 
 const useUser = () => {
@@ -28,11 +29,16 @@ const useLogin = (
     setError:  UseFormSetError<Login>
 ) => {
     const queryClient = useQueryClient()
+    const { setIsLoading } = useLoading()
 
     return useMutation(api.login, {
+        onMutate: () => {
+            setIsLoading(true)
+        },
         onError: (error: AxiosError) => {
             showNotification(errorMessage('ログインに失敗しました。'))
             setValidationError(error, setError)
+            setIsLoading(false)
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['user'])
@@ -43,9 +49,14 @@ const useLogin = (
 
 const useLogout = () => {
     const queryClient = useQueryClient()
+    const { setIsLoading } = useLoading()
 
     return useMutation(api.logout, {
+        onMutate: () => {
+            setIsLoading(true)
+        },
         onError: () => {
+            setIsLoading(false)
             showNotification(errorMessage('ログアウトに失敗しました。'))
         },
         onSuccess: () => {
