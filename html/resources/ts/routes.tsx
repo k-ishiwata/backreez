@@ -16,12 +16,7 @@ import LoginPage from '@/pages/login'
  */
 const guardLoader = async () => {
     const user = await getAuthUser()
-
-    if (! user) {
-        return redirect('/login')
-    }
-
-    return true
+    return user ? true : redirect('/login')
 }
 
 /**
@@ -29,12 +24,7 @@ const guardLoader = async () => {
  */
 const guestLoader = async () => {
     const user = await getAuthUser()
-
-    if (user) {
-        return redirect('/')
-    }
-
-    return true
+    return user ? redirect('/') : true
 }
 
 export const router = createBrowserRouter([
