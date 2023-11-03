@@ -51,8 +51,8 @@ export const Header: React.FC= () => {
 
                 <DropdownMenu>
                     <DropdownMenu.Trigger>
-                        <Group css={{gap: 0}}>
-                            <Avatar css={{backgroundImage: 'url(https://i.pravatar.cc/100)'}} />
+                        <Group css={{gap: 3}}>
+                            <Avatar>U</Avatar>
                             <IoChevronDownOutline />
                         </Group>
                     </DropdownMenu.Trigger>
