@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import {
-    Menu,
-    Group,
-    Header as BaseHeader,
-    Avatar,
-    ActionIcon,
-    useMantineColorScheme
-} from '@mantine/core'
+    Wrap,
+    AppName,
+    MainNavi,
+    SubNavi,
+} from './styles'
+import { IconButton } from '@/components/IconButton'
+import { Group } from '@/components/layouts'
+import { Avatar } from '@/components/Avatar'
 import {
     IoMoonOutline,
     IoSunnyOutline,
@@ -15,45 +16,52 @@ import {
     IoChevronDownOutline
 } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
-import useStyles from './Header.styles'
 import { useLogout } from "@/queries/authQuery"
+import { darkTheme } from '@/stitches.config'
+
+import { DropdownMenu } from '@/components/DropdownMenu'
 
 export const Header: React.FC= () => {
-    const { classes } = useStyles()
-    const { colorScheme, toggleColorScheme } = useMantineColorScheme()
     const logout = useLogout()
+
+    const [isDarkTheme, setIsDarkTheme] = useState(false)
+
+    useLayoutEffect(() => {
+        const { classList } = document.body
+        isDarkTheme
+            ? classList.add(darkTheme)
+            : classList.remove(darkTheme)
+    }, [isDarkTheme])
 
     const handleLogout = () => logout.mutate()
 
     return (
-        <BaseHeader
-            height={50}
-            p="xs"
-            className={classes.wrapper}
-        >
-            <p className={classes.appName}>Backreez</p>
-            <ul className={classes.mainNav}>
-                <li className="item"><NavLink to="/">ダッシュボード</NavLink></li>
-                <li className="item"><NavLink to="projects">プロジェクト</NavLink></li>
-            </ul>
+        <Wrap>
+            <AppName>Backreez</AppName>
+            <MainNavi>
+                <li><NavLink to="/">ダッシュボード</NavLink></li>
+                <li><NavLink to="projects">プロジェクト</NavLink></li>
+            </MainNavi>
 
-            <Group className={classes.subNav}>
-                <ActionIcon variant="default" onClick={() => toggleColorScheme()} size={30}>
-                    {colorScheme === 'dark' ? <IoSunnyOutline /> : <IoMoonOutline />}
-                </ActionIcon>
-                <Menu width={200}>
-                    <Menu.Target>
-                        <Group spacing="xs">
-                            <Avatar radius="xl" />
+            <SubNavi>
+                <IconButton
+                    onClick={() => setIsDarkTheme(! isDarkTheme)}>
+                    { isDarkTheme ? <IoSunnyOutline /> : <IoMoonOutline /> }
+                </IconButton>
+
+                <DropdownMenu>
+                    <DropdownMenu.Trigger>
+                        <Group css={{gap: 0}}>
+                            <Avatar css={{backgroundImage: 'url(https://i.pravatar.cc/100)'}} />
                             <IoChevronDownOutline />
                         </Group>
-                    </Menu.Target>
-                    <Menu.Dropdown>
-                        <Menu.Item icon={<IoSettingsOutline />}>設定</Menu.Item>
-                        <Menu.Item icon={<IoLogOutOutline />} onClick={handleLogout}>ログアウト</Menu.Item>
-                    </Menu.Dropdown>
-                </Menu>
-            </Group>
-        </BaseHeader>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content position="left">
+                        <DropdownMenu.Item icon={<IoSettingsOutline />}>設定</DropdownMenu.Item>
+                        <DropdownMenu.Item icon={<IoLogOutOutline />} onClick={handleLogout}>ログアウト</DropdownMenu.Item>
+                    </DropdownMenu.Content>
+                </DropdownMenu>
+            </SubNavi>
+        </Wrap>
     )
 }

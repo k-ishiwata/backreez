@@ -1,14 +1,7 @@
 import React from 'react'
-import {
-    Button,
-    PasswordInput,
-    Container,
-    Anchor,
-    Group,
-    TextInput,
-    Stack,
-    Title
-} from '@mantine/core'
+import { Button } from '@/components/Button'
+import { Container, Stack, Group } from '@/components/layouts'
+import { Input, Label } from '@/components/form'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useLogin } from '@/queries/authQuery'
 import type { Login } from '@/types/User'
@@ -26,31 +19,34 @@ const LoginPage: React.FC = () => {
     }
 
     return (
-        <Container size="xs" style={{paddingTop: '5%'}}>
-            <Title style={{marginBottom: 20}}>ログイン</Title>
+        <Container size="sm">
+            <h1>ログイン</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack>
-                    <TextInput
-                        required
-                        label="メールアドレス"
-                        error={errors.email?.message}
-                        {...register('email', {
-                            required: '必ず入力してください。'
-                        })}
-                        defaultValue="admin@example.com"
-                    />
-                    <PasswordInput
-                        {...register('password', {
-                            required: '必ず入力してください。'
-                        })}
-                        label="パスワード"
-                        error={errors.password?.message}
-                        required
-                        defaultValue="123456789"
-                    />
+                    <div>
+                        <Label required>メールアドレス</Label>
+                        <Input
+                            type="email"
+                            {...register('email', {
+                                required: '必ず入力してください。'
+                            })}
+                            defaultValue="admin@example.com"
+                        />
+                    </div>
+                    <div>
+                        <Label required>パスワード</Label>
+                        <Input
+                            type="password"
+                            {...register('password', {
+                                required: '必ず入力してください。'
+                            })}
+                            defaultValue="123456789"
+                        />
+                    </div>
+
                     <Group>
-                        <Button type="submit">ログイン</Button>
-                        <Anchor size="sm">新規ユーザー登録</Anchor>
+                        <Button type="submit" primary>ログイン</Button>
+                        <a href="#">新規ユーザー登録</a>
                     </Group>
                 </Stack>
             </form>
