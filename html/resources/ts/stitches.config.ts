@@ -6,6 +6,7 @@ export const { styled, keyframes } = createStitches({
             black: 'rgba(19, 19, 21, 1)',
             white: 'rgba(255, 255, 255, 1)',
             gray: 'rgba(134, 142, 150, 1)',
+            grayHover: 'rgb(236,239,240)',
             grayLight: 'rgba(248, 249, 250, 1)',
             blue: 'rgba(51, 155, 240, 1)',
             blueHover: 'rgb(133,198,255)',

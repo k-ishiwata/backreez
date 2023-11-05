@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react'
-import {
-    Group,
-    Stack,
-    Button,
-    Textarea,
-    TextInput
-} from '@mantine/core'
+import { Button } from '@/components'
+import { Input, Label, Textarea } from '@/components/form'
+import { Group, Stack } from '@/components/layouts'
 import { closeAllModals } from '@mantine/modals'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -55,33 +51,45 @@ export const InputModal: React.FC<Props> = ({
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Stack>
-                <TextInput
-                    required
-                    label="プロジェクトID"
-                    placeholder="ABCD"
-                    error={errors.key?.message}
-                    {...register('key')}
-                />
-                <TextInput
-                    required
-                    label="プロジェクト名"
-                    placeholder="プロジェクトA"
-                    error={errors.name?.message}
-                    {...register('name')}
-                />
-                <Textarea
-                    label="概要"
-                    autosize
-                    minRows={2}
-                    maxRows={4}
-                    error={errors.description?.message}
-                    {...register('description')}
-                />
+                <div>
+                    <Label required>プロジェクトID</Label>
+                    <Input
+                        type="text"
+                        {...register('key')}
+                        placeholder="ABCD"
+                        error={!!errors.key}
+                        required
+                    />
+                    { errors.key && <Label error>{errors.key.message}</Label> }
+                </div>
+
+                <div>
+                    <Label required>プロジェクト名</Label>
+                    <Input
+                        type="text"
+                        {...register('name')}
+                        placeholder="プロジェクトA"
+                        error={!!errors.name}
+                        required
+                    />
+                    { errors.name && <Label error>{errors.name.message}</Label> }
+                </div>
+
+                <div>
+                    <Label>概要</Label>
+                    <Textarea
+                        rows={3}
+                        {...register('description')}
+                    />
+                    { errors.description && <Label error>{errors.description.message}</Label> }
+                </div>
+
+                <Group gap="sm">
+                    <Button type="submit" primary>保存</Button>
+                    <Button type="button" onClick={() => closeAllModals()}>キャンセル</Button>
+                </Group>
             </Stack>
-            <Group spacing="xs" mt="lg">
-                <Button type="submit">保存</Button>
-                <Button variant="outline" onClick={() => closeAllModals()}>キャンセル</Button>
-            </Group>
+
         </form>
     )
 }

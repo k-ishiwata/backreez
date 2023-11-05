@@ -12,5 +12,10 @@ export const Label = styled('label', {
                 }
             }
         },
+        error: {
+            true: {
+                color: '$red',
+            }
+        },
     }
 })

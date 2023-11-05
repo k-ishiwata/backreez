@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { useProjects } from '@/queries/projectQuery'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import {
-    Loader,
-    SimpleGrid,
-    Pagination
-} from '@mantine/core'
+import { Loader, Table, Pagination } from '@/components'
 import { ProjectItem } from './ProjectItem'
 
 export const ProjectList: React.FC = () => {
@@ -23,7 +19,7 @@ export const ProjectList: React.FC = () => {
     if (error) return <p>データの取得に失敗しました。</p>
     if (! projectPager?.data?.length) return <p>データがありません。</p>
 
-    const { data: projects, last_page } = projectPager
+    const { data: projects, last_page: lastPage } = projectPager
 
     const handlePagerClick = (page: number) => {
         setPage(page)
@@ -33,28 +29,31 @@ export const ProjectList: React.FC = () => {
 
     return (
         <div>
-            <SimpleGrid
-                cols={2}
-                spacing="md"
-                breakpoints={[{
-                    maxWidth: 900,
-                    cols: 1
-                }]}
-                style={{ marginBottom: 30 }}
-            >
-                {projects.map((project, index) => (
-                    <ProjectItem
-                        key={index}
-                        project={project}
-                    />
-                ))}
-            </SimpleGrid>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>プロジェクト名</th>
+                        <th>登録日</th>
+                        <th>編集日</th>
+                        <th>アクション</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {projects.map((project, index) => (
+                        <ProjectItem
+                            key={index}
+                            project={project}
+                        />
+                    ))}
+                </tbody>
+            </Table>
             {
-                last_page !== 1 &&
+                lastPage !== 1 &&
                     <Pagination
-                        value={page}
-                        total={last_page}
-                        onChange={handlePagerClick}
+                        page={page}
+                        total={lastPage}
+                        onClick={handlePagerClick}
                     />
             }
         </div>

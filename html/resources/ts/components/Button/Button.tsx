@@ -10,14 +10,14 @@ export const Button = styled('button', {
     borderRadius: '$md',
     fontWeight: 600,
     position: 'relative',
-    height: '2rem',
     lineHeight: 1,
     userSelect: 'none',
     border: '1px solid transparent',
     color: '#fff',
-    padding: '0.6em 1.1rem',
     backgroundColor: '$gray',
     fontSize: '$md',
+    padding: '0.6em 1.1rem',
+    height: '2rem',
 
     '&:hover': {
         opacity: .9,
@@ -47,6 +47,18 @@ export const Button = styled('button', {
             red: {
                 backgroundColor: '$red',
             },
+        },
+        size: {
+            xs: {
+                fontSize: '$sm',
+                padding: '0.3em 0.8rem',
+                height: '1.7rem',
+            },
+            sm: {
+                fontSize: '$sm',
+                padding: '0.3em 0.8rem',
+                height: '1.7rem',
+            }
         },
         variant: {
             outline: {
