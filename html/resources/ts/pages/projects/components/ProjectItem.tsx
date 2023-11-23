@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import dayjs from 'dayjs'
 import { useDeleteProject } from '@/queries/projectQuery'
 import { Group } from '@/components/layouts'
 import { Button } from '@/components'
-import { useConfirmModal, useContentModal } from '@/hooks/modals'
+import { ConfirmDialog } from '@/components/Modal'
 import { InputModal } from './InputModal'
 import { NavLink } from 'react-router-dom'
 import type { Project } from '@/types/Project'
@@ -22,11 +22,15 @@ const projectLinks = [
 export const ProjectItem: React.FC<Props> = ({
     project
 }) => {
+    const [isEditModal, setIsEditModal] = useState(false)
+    const [idDeleteDialog, isSetShowDeleteDialog] = useState(false)
+
     const deleteProject = useDeleteProject()
 
-    // 削除確認モーダル
-    const { deleteModal } = useConfirmModal<Project>(deleteProject)
-    const { openModal } = useContentModal()
+    const handleDelete = (id: number) => {
+        deleteProject.mutate(id)
+        isSetShowDeleteDialog(false)
+    }
 
     return (
         <tr>
@@ -50,16 +54,26 @@ export const ProjectItem: React.FC<Props> = ({
                 <Group gap="sm">
                     <Button
                         size="sm"
-                        onClick={() => openModal({
-                            title: '編集',
-                            children: <InputModal editItem={project} />
-                        })}>編集</Button>
+                        onClick={() => setIsEditModal(true)}
+                    >編集</Button>
                     <Button
                         size="sm"
                         color="red"
-                        onClick={() => deleteModal(project)}
+                        onClick={() => isSetShowDeleteDialog(true)}
                     >削除</Button>
                 </Group>
+                {idDeleteDialog && <ConfirmDialog
+                    title="削除確認"
+                    message={`#${project.key}を削除しますか`}
+                    closeModal={() => isSetShowDeleteDialog(false)}
+                    action={() => handleDelete(project.id)}
+                />}
+                {isEditModal &&
+                    <InputModal
+                        editItem={project}
+                        handleCloseModal={() => setIsEditModal(false)}
+                    />
+                }
             </td>
         </tr>
     )

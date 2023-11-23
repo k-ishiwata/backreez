@@ -32,7 +32,7 @@ export const ProjectList: React.FC = () => {
             <Table>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th style={{width: 110}}>ID</th>
                         <th>プロジェクト名</th>
                         <th>登録日</th>
                         <th>編集日</th>

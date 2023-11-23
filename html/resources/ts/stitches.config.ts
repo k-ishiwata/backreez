@@ -31,6 +31,7 @@ export const { styled, keyframes } = createStitches({
             sm: '11px',
             md: '13px',
             lg: '15px',
+            lgx: '17px',
         },
         space: {
             1: '4px',
