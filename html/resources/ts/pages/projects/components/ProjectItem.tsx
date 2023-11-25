@@ -62,18 +62,18 @@ export const ProjectItem: React.FC<Props> = ({
                         onClick={() => isSetShowDeleteDialog(true)}
                     >削除</Button>
                 </Group>
-                {idDeleteDialog && <ConfirmDialog
+                <ConfirmDialog
                     title="削除確認"
                     message={`#${project.key}を削除しますか`}
                     closeModal={() => isSetShowDeleteDialog(false)}
                     action={() => handleDelete(project.id)}
-                />}
-                {isEditModal &&
-                    <InputModal
-                        editItem={project}
-                        handleCloseModal={() => setIsEditModal(false)}
-                    />
-                }
+                    isVisible={idDeleteDialog}
+                />
+                <InputModal
+                    editItem={project}
+                    handleCloseModal={() => setIsEditModal(false)}
+                    isVisible={isEditModal}
+                />
             </td>
         </tr>
     )

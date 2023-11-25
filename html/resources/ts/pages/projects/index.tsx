@@ -14,11 +14,11 @@ const ProjectPage: React.FC = () => {
                 <Button primary onClick={() => setIsInputModal(true)}>新規作成</Button>
             </Group>
             <ProjectList />
-            {isInputModal &&
-                <InputModal
-                    handleCloseModal={() => setIsInputModal(false)}
-                />
-            }
+            <InputModal
+                editItem={undefined}
+                handleCloseModal={() => setIsInputModal(false)}
+                isVisible={isInputModal}
+            />
         </Container>
     )
 }

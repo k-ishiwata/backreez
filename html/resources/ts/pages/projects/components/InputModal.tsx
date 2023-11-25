@@ -13,15 +13,16 @@ import { projectSchema } from '@/validations/ProjectSchema'
 import type { Project } from 'types/Project'
 import type { ProjectSchema } from '@/validations/ProjectSchema'
 
-
 type Props = {
     editItem?: Project
     handleCloseModal: () => void
+    isVisible: boolean
 }
 
 export const InputModal: React.FC<Props> = ({
     editItem,
     handleCloseModal,
+    isVisible,
 }) => {
     const {
         register, handleSubmit, formState: { errors }, setValue, setError
@@ -59,6 +60,7 @@ export const InputModal: React.FC<Props> = ({
         <ModalBase
             title={`プロジェクト${editItem ? '編集' : '登録'}`}
             handleCloseModal={handleCloseModal}
+            isVisible={isVisible}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack>
