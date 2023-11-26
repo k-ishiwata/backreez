@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Button } from '@/components'
 import { Input, Label, Textarea } from '@/components/form'
 import { Group, Stack } from '@/components/layouts'
-import { ModalBase } from '@/components/Modal'
+import { BaseModal } from '@/components/Modal'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import {
@@ -12,18 +12,15 @@ import {
 import { projectSchema } from '@/validations/ProjectSchema'
 import type { Project } from 'types/Project'
 import type { ProjectSchema } from '@/validations/ProjectSchema'
+import { useInputModal } from '@/hooks/modal'
 
-type Props = {
-    editItem?: Project
-    handleCloseModal: () => void
-    isVisible: boolean
-}
+export const InputModal: React.FC = () => {
+    const {
+        item: project,
+        isVisible,
+        closeModal
+    } = useInputModal<Project|undefined>('project')
 
-export const InputModal: React.FC<Props> = ({
-    editItem,
-    handleCloseModal,
-    isVisible,
-}) => {
     const {
         register, handleSubmit, formState: { errors }, setValue, setError
     } = useForm<ProjectSchema>({
@@ -34,32 +31,32 @@ export const InputModal: React.FC<Props> = ({
     const createProject = useCreateProject(setError)
 
     useEffect(() => {
-        setValue('key', editItem?.key || '')
-        setValue('name', editItem?.name || '')
-        setValue('description', editItem?.description || '')
-    }, [])
+        setValue('key', project?.key || '')
+        setValue('name', project?.name || '')
+        setValue('description', project?.description || '')
+    }, [project])
 
     const onSubmit: SubmitHandler<ProjectSchema> = data => {
-        // editItemがある場合は更新
-        if (editItem) {
-            const newProject = {...editItem, ...data}
+        // projectがある場合は更新
+        if (project) {
+            const newProject = {...project, ...data}
             updateProject.mutate({
-                id: editItem.id,
+                id: project.id,
                 project: newProject
             }, {
-                onSuccess: () => handleCloseModal()
+                onSuccess: closeModal
             })
         } else {
             createProject.mutate(data, {
-                onSuccess: () => handleCloseModal()
+                onSuccess: closeModal
             })
         }
     }
 
     return (
-        <ModalBase
-            title={`プロジェクト${editItem ? '編集' : '登録'}`}
-            handleCloseModal={handleCloseModal}
+        <BaseModal
+            title={`プロジェクト${project ? '編集' : '登録'}`}
+            handleCloseModal={closeModal}
             isVisible={isVisible}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -99,10 +96,10 @@ export const InputModal: React.FC<Props> = ({
 
                     <Group gap="sm">
                         <Button type="submit" primary>保存</Button>
-                        <Button type="button" onClick={handleCloseModal}>キャンセル</Button>
+                        <Button type="button" onClick={closeModal}>キャンセル</Button>
                     </Group>
                 </Stack>
             </form>
-        </ModalBase>
+        </BaseModal>
     )
 }

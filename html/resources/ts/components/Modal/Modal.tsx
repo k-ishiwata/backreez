@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { styled } from '@/stitches.config'
 import { IoClose } from 'react-icons/io5'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useConfirmDialog } from '@/hooks/modal'
 import { Button } from '@/components/Button'
 import { Group } from '@/components/layouts'
 
@@ -57,14 +58,14 @@ const Footer = styled('div', {
     marginTop: 20,
 })
 
-type ModalBaseProps = {
+type BaseModalProps = {
     title?: string
     handleCloseModal: () => void
     children: ReactNode
     isVisible: boolean
 }
 
-export const ModalBase: React.FC<ModalBaseProps> = ({
+export const BaseModal: React.FC<BaseModalProps> = ({
     title,
     handleCloseModal,
     children,
@@ -94,25 +95,16 @@ export const ModalBase: React.FC<ModalBaseProps> = ({
     )
 }
 
-type ConfirmDialogProps = {
-    title: string
-    message: string
-    closeModal: React.MouseEventHandler
-    action: React.MouseEventHandler
-    isVisible: boolean
-}
+export const DeleteConfirmDialog: React.FC = () => {
+    const {
+        item,
+        closeDialog
+    } = useConfirmDialog('delete')
 
-export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
-    title,
-    message,
-    closeModal,
-    action,
-    isVisible
-}) => {
     return ReactDOM.createPortal(
         <AnimatePresence>
-            {isVisible &&
-                <Overlay onMouseDown={closeModal}>
+            {item &&
+                <Overlay onMouseDown={closeDialog}>
                     <motion.div
                         key="confirmDialog"
                         initial={{ scale: 0.9, originY: "300px" }}
@@ -126,13 +118,13 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
                             }}
                             onMouseDown={e => e.stopPropagation()}
                         >
-                            <CloseButton type="button" onClick={closeModal}><IoClose/></CloseButton>
-                            {title && <ModalTitle>{title}</ModalTitle>}
-                            <Body>{message}</Body>
+                            <CloseButton type="button" onClick={closeDialog}><IoClose/></CloseButton>
+                            <ModalTitle>{item.title}</ModalTitle>
+                            <Body>{item.message}</Body>
                             <Footer>
                                 <Group gap="sm" css={{ justifyContent: 'flex-end' }}>
-                                    <Button onClick={closeModal}>キャンセル</Button>
-                                    <Button color="red" onClick={action}>削除</Button>
+                                    <Button onClick={closeDialog}>キャンセル</Button>
+                                    <Button color="red" onClick={item.action}>削除</Button>
                                 </Group>
                             </Footer>
                         </Content>

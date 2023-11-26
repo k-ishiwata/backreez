@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import dayjs from 'dayjs'
 import { useDeleteProject } from '@/queries/projectQuery'
+import { useConfirmDialog, useInputModal } from '@/hooks/modal'
 import { Group } from '@/components/layouts'
 import { Button } from '@/components'
-import { ConfirmDialog } from '@/components/Modal'
-import { InputModal } from './InputModal'
 import { NavLink } from 'react-router-dom'
 import type { Project } from '@/types/Project'
 
@@ -22,14 +21,15 @@ const projectLinks = [
 export const ProjectItem: React.FC<Props> = ({
     project
 }) => {
-    const [isEditModal, setIsEditModal] = useState(false)
-    const [idDeleteDialog, isSetShowDeleteDialog] = useState(false)
+    const { openModal } = useInputModal<Project>('project')
+    const { openDialog, closeDialog } = useConfirmDialog('delete')
 
     const deleteProject = useDeleteProject()
 
     const handleDelete = (id: number) => {
-        deleteProject.mutate(id)
-        isSetShowDeleteDialog(false)
+        deleteProject.mutate(id, {
+            onSuccess: closeDialog
+        })
     }
 
     return (
@@ -54,26 +54,18 @@ export const ProjectItem: React.FC<Props> = ({
                 <Group gap="sm">
                     <Button
                         size="sm"
-                        onClick={() => setIsEditModal(true)}
+                        onClick={() => openModal(project)}
                     >編集</Button>
                     <Button
                         size="sm"
                         color="red"
-                        onClick={() => isSetShowDeleteDialog(true)}
+                        onClick={() => openDialog({
+                            title: 'Todoの削除',
+                            message: `ID:${project.key}を本当に削除しますか?`,
+                            action: () => handleDelete(project.id)
+                        })}
                     >削除</Button>
                 </Group>
-                <ConfirmDialog
-                    title="削除確認"
-                    message={`#${project.key}を削除しますか`}
-                    closeModal={() => isSetShowDeleteDialog(false)}
-                    action={() => handleDelete(project.id)}
-                    isVisible={idDeleteDialog}
-                />
-                <InputModal
-                    editItem={project}
-                    handleCloseModal={() => setIsEditModal(false)}
-                    isVisible={isEditModal}
-                />
             </td>
         </tr>
     )
