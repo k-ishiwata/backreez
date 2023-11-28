@@ -17,12 +17,16 @@ export const useInputModal = <T>(
     const item: T = modal[key]
 
     const openModal = (item: T): void => {
+        document.body.style.overflow = 'hidden'
         setModal({
             [key]: item
         })
     }
 
-    const closeModal = (): void => setModal({})
+    const closeModal = (): void => {
+        document.body.style.overflow = 'unset'
+        setModal({})
+    }
 
     return {item, isVisible, openModal, closeModal}
 }
@@ -50,10 +54,14 @@ export const useConfirmDialog = (
     const isVisible = item?.key === key
 
     const openDialog = (item: ConfirmDialog): void => {
+        document.body.style.overflow = 'hidden'
         setDialog({...item, key: key})
     }
 
-    const closeDialog = (): void => setDialog(undefined)
+    const closeDialog = (): void => {
+        document.body.style.overflow = 'unset'
+        setDialog(undefined)
+    }
 
     return {item, isVisible, openDialog, closeDialog}
 }
