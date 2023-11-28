@@ -6,13 +6,14 @@ import {
     MantineProvider,
     LoadingOverlay
 } from '@mantine/core'
-import { Notifications } from '@mantine/notifications'
 import { ModalsProvider } from '@mantine/modals'
 import {
     QueryClientProvider
 } from '@tanstack/react-query'
 import queryClient from '@/queries/queryClient'
 import { useLoading } from '@/hooks/loading'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const App: React.FC = () => {
     globalStyles()
@@ -24,9 +25,12 @@ const App: React.FC = () => {
         <QueryClientProvider client={queryClient}>
             <MantineProvider>
                 <ModalsProvider>
-                    <Notifications />
-                    <LoadingOverlay visible={isLoading} overlayBlur={2} />
-                    <RouterProvider router={router} />
+                <LoadingOverlay visible={isLoading} overlayBlur={2} />
+                <RouterProvider router={router} />
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={3000}
+                />
                 </ModalsProvider>
             </MantineProvider>
         </QueryClientProvider>

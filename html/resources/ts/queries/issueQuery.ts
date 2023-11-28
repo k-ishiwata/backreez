@@ -3,8 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { UseFormSetError } from 'react-hook-form/dist/types/form'
 import { IssueSchema } from '@/validations/IssueSchema'
 import { AxiosError } from 'axios'
-import { showNotification } from '@mantine/notifications'
-import { errorMessage, successMessage } from '@/utils/notificationMessages'
+import { toast } from 'react-toastify'
 import { setValidationError } from '@/utils/axios'
 import { closeAllModals } from '@mantine/modals'
 
@@ -23,11 +22,11 @@ const useCreateIssue = (
 
     return useMutation(api.createIssue, {
         onError: (error: AxiosError) => {
-            showNotification(errorMessage('データの登録に失敗しました。'))
+            toast.error('データの登録に失敗しました。')
             setValidationError(error, setError)
         },
         onSuccess: () => {
-            showNotification(successMessage('データの登録に成功しました。'))
+            toast.success('データの登録に成功しました。')
             queryClient.invalidateQueries(['issues'])
 
             closeAllModals()
@@ -42,11 +41,11 @@ const useUpdateIssue = (
 
     return useMutation(api.updateIssue, {
         onError: (error: AxiosError) => {
-            showNotification(errorMessage('データの更新に失敗しました。'))
+            toast.error('データの更新に失敗しました。')
             setValidationError(error, setError)
         },
         onSuccess: (data, variables) => {
-            showNotification(successMessage('データの更新に成功しました。'))
+            toast.success('データの更新に成功しました。')
             queryClient.invalidateQueries([`issue`, variables.id])
 
             closeAllModals()
@@ -59,10 +58,10 @@ const useDeleteIssue = () => {
 
     return useMutation(api.deleteIssue, {
         onError: (error: AxiosError) => {
-            showNotification(errorMessage('データの削除に失敗しました。'))
+            toast.error('データの削除に失敗しました。')
         },
         onSuccess: () => {
-            showNotification(successMessage('データの削除に成功しました。'))
+            toast.success('データの削除に成功しました。')
             queryClient.invalidateQueries(['issues'])
         }
     })

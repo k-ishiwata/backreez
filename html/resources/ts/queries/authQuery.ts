@@ -1,8 +1,7 @@
 import * as api from '@/api/authAPI'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { showNotification } from '@mantine/notifications'
 import { AxiosError } from 'axios'
-import { errorMessage } from '@/utils/notificationMessages'
+import { toast } from 'react-toastify'
 import queryClient from '@/queries/queryClient'
 import { setValidationError } from '@/utils/axios'
 import { UseFormSetError } from 'react-hook-form/dist/types/form'
@@ -36,7 +35,7 @@ const useLogin = (
             setIsLoading(true)
         },
         onError: (error: AxiosError) => {
-            showNotification(errorMessage('ログインに失敗しました。'))
+            toast.error('ログインに失敗しました。')
             setValidationError(error, setError)
             setIsLoading(false)
         },
@@ -57,7 +56,7 @@ const useLogout = () => {
         },
         onError: () => {
             setIsLoading(false)
-            showNotification(errorMessage('ログアウトに失敗しました。'))
+            toast.error('ログアウトに失敗しました。')
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['user'])

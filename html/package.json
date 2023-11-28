@@ -42,6 +42,7 @@
         "@uidotdev/usehooks": "^2.4.1",
         "dayjs": "^1.11.3",
         "framer-motion": "^10.16.5",
-        "jotai": "^2.5.1"
+        "jotai": "^2.5.1",
+        "react-toastify": "^9.1.3"
     }
 }
