@@ -3,6 +3,7 @@ import { Button } from '@/components'
 import { Input, Label, Textarea } from '@/components/form'
 import { Group, Stack } from '@/components/layouts'
 import { BaseModal } from '@/components/Modal'
+import { useInputModal } from '@/hooks/modal'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import {
@@ -12,7 +13,6 @@ import {
 import { projectSchema } from '@/validations/ProjectSchema'
 import type { Project } from 'types/Project'
 import type { ProjectSchema } from '@/validations/ProjectSchema'
-import { useInputModal } from '@/hooks/modal'
 
 export const InputModal: React.FC = () => {
     const {
@@ -22,7 +22,7 @@ export const InputModal: React.FC = () => {
     } = useInputModal<Project|undefined>('project')
 
     const {
-        register, handleSubmit, formState: { errors }, setValue, setError
+        register, handleSubmit, formState: { errors }, setValue, setError, clearErrors
     } = useForm<ProjectSchema>({
         resolver: zodResolver(projectSchema)
     })
@@ -31,6 +31,7 @@ export const InputModal: React.FC = () => {
     const createProject = useCreateProject(setError)
 
     useEffect(() => {
+        clearErrors()
         setValue('key', project?.key || '')
         setValue('name', project?.name || '')
         setValue('description', project?.description || '')
