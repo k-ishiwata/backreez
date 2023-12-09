@@ -9,6 +9,13 @@ const getProjects = async (page?: number) => {
             'page': page
         }
     })
+
+    data.data = data.data.map(({ created_at, updated_at, ...rest }) => ({
+        ...rest,
+        created_at: new Date(created_at),
+        updated_at: new Date(updated_at),
+    }));
+
     return data
 }
 

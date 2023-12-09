@@ -20,9 +20,6 @@ import {
 import { issueSchema } from '@/validations/IssueSchema'
 import type { Issue } from 'types/Issue'
 import type { IssueSchema } from '@/validations/IssueSchema'
-import dayjs from 'dayjs'
-import ja from 'dayjs/locale/ja'
-dayjs.locale(ja)
 
 type Props = {
     projectKey?: string

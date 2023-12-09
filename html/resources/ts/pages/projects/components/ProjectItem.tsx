@@ -1,5 +1,5 @@
 import React from 'react'
-import dayjs from 'dayjs'
+import { format } from 'date-fns'
 import { useDeleteProject } from '@/queries/projectQuery'
 import { useConfirmDialog, useInputModal } from '@/hooks/modal'
 import { Group } from '@/components/layouts'
@@ -48,8 +48,8 @@ export const ProjectItem: React.FC<Props> = ({
                 ))}
                 </Group>
             </td>
-            <td>{dayjs(project.updated_at).format('YYYY/MM/DD')}</td>
-            <td>{dayjs(project.created_at).format('YYYY/MM/DD')}</td>
+            <td>{format(project.created_at, 'yyyy/MM/dd')}</td>
+            <td>{format(project.updated_at, 'yyyy/MM/dd')}</td>
             <td width={130}>
                 <Group gap="sm">
                     <Button

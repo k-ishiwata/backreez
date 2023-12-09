@@ -10,7 +10,7 @@ import {
     Priority
 } from '@/components'
 import { Group, Container } from '@/components/layouts'
-import dayjs from 'dayjs'
+import { format } from 'date-fns'
 import { useInputModal } from "@/hooks/modal"
 import { Issue } from "@/types/Issue"
 
@@ -35,8 +35,8 @@ export const IssueDetail: React.FC = () => {
                     <Badge css={{backgroundColor: issue.status.color, width: 100}}>
                         {issue.status.name}
                     </Badge>
-                    <span>作成日：{dayjs(issue.created_at).format('YYYY/MM/DD')}</span>
-                    <span>編集日：{dayjs(issue.updated_at).format('YYYY/MM/DD')}</span>
+                    <span>登録日：{format(issue.created_at, 'yyyy/MM/dd HH:mm')}</span>
+                    <span>更新日：{format(issue.created_at, 'yyyy/MM/dd HH:mm')}</span>
                 </Group>
                 <Button
                     primary
@@ -55,7 +55,7 @@ export const IssueDetail: React.FC = () => {
                     <tbody>
                         <tr>
                             <td width={140}>期限</td>
-                            <td>{issue.due_at && dayjs(issue.due_at).format('YYYY/MM/DD HH:mm')}</td>
+                            <td>{issue.due_at && format(issue.due_at, 'yyyy/MM/dd HH:mm')}</td>
                         </tr>
                         <tr>
                             <td>ステータス</td>
@@ -63,7 +63,7 @@ export const IssueDetail: React.FC = () => {
                         </tr>
                         <tr>
                             <td>登録日</td>
-                            <td>{issue.created_at && dayjs(issue.created_at).format('YYYY/MM/DD HH:mm')}</td>
+                            <td>{format(issue.created_at, 'yyyy/MM/dd HH:mm')}</td>
                         </tr>
                     </tbody>
                 </Table>
@@ -78,8 +78,8 @@ export const IssueDetail: React.FC = () => {
                             <td>{issue.user?.name}</td>
                         </tr>
                         <tr>
-                            <td>編集日</td>
-                            <td>{issue.updated_at && dayjs(issue.updated_at).format('YYYY/MM/DD HH:mm')}</td>
+                            <td>更新日</td>
+                            <td>{format(issue.updated_at, 'yyyy/MM/dd HH:mm')}</td>
                         </tr>
                     </tbody>
                 </Table>

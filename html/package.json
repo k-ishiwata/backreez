@@ -41,7 +41,7 @@
         "@mantine/notifications": "^6.0.0",
         "@stitches/react": "^1.2.8",
         "@uidotdev/usehooks": "^2.4.1",
-        "dayjs": "^1.11.3",
+        "date-fns": "^2.30.0",
         "framer-motion": "^10.16.5",
         "jotai": "^2.5.1",
         "react-datepicker": "^4.24.0",

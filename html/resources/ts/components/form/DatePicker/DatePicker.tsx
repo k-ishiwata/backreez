@@ -1,7 +1,6 @@
 import React from 'react'
 import { styled } from '@/stitches.config'
 import ReactDatePicker, { registerLocale } from 'react-datepicker'
-
 import ja from 'date-fns/locale/ja'
 
 registerLocale('ja', ja)

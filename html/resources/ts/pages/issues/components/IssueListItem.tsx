@@ -1,8 +1,7 @@
 import React from 'react'
 import { Button, Badge, Priority } from '@/components'
 import { Group } from '@/components/layouts'
-import dayjs from 'dayjs'
-import 'dayjs/locale/ja'
+import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 import { useConfirmModal } from '@/hooks/modals'
 import { useDeleteIssue } from '@/queries/issueQuery'
@@ -38,8 +37,8 @@ export const IssueListItem: React.FC<Props> = ({
             <td width={80}>
                 <Priority selectedId={issue.priority_id} />
             </td>
-            <td width={80}>{issue.due_at && dayjs(issue.due_at).format('YYYY/MM/DD')}</td>
-            <td width={80}>{dayjs(issue.created_at).format('YYYY/MM/DD')}</td>
+            <td width={80}>{issue.due_at && format(issue.due_at, 'yyyy/MM/dd')}</td>
+            <td width={80}>{format(issue.created_at, 'yyyy/MM/dd')}</td>
             <td width={130}>
                 <Group gap="sm">
                     <Button

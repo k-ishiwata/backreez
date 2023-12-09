@@ -35,7 +35,7 @@ export const ProjectList: React.FC = () => {
                         <th style={{width: 110}}>ID</th>
                         <th>プロジェクト名</th>
                         <th>登録日</th>
-                        <th>編集日</th>
+                        <th>更新日</th>
                         <th>アクション</th>
                     </tr>
                 </thead>
