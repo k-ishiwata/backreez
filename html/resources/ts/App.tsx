@@ -14,6 +14,7 @@ import queryClient from '@/queries/queryClient'
 import { useLoading } from '@/hooks/loading'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const App: React.FC = () => {
     globalStyles()

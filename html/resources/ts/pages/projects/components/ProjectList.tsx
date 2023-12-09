@@ -29,7 +29,7 @@ export const ProjectList: React.FC = () => {
 
     return (
         <div>
-            <Table>
+            <Table stripe>
                 <thead>
                     <tr>
                         <th style={{width: 110}}>ID</th>

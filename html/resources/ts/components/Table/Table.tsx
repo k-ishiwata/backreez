@@ -15,7 +15,17 @@ export const Table = styled('table', {
         borderTop: 'solid 1px $border',
         textAlign: 'left',
     },
-    'tbody tr:nth-child(odd)': {
-        background: '$grayLight',
-    }
+    'tr:first-child td': {
+        borderTop: 'solid 1px $border',
+    },
+
+    variants: {
+        stripe: {
+            true: {
+                'tbody tr:nth-child(odd)': {
+                    background: '$grayLight',
+                },
+            }
+        },
+    },
 })

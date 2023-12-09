@@ -60,7 +60,7 @@ export const ProjectItem: React.FC<Props> = ({
                         size="sm"
                         color="red"
                         onClick={() => openDialog({
-                            title: 'Todoの削除',
+                            title: 'プロジェクトの削除',
                             message: `ID:${project.key}を本当に削除しますか?`,
                             action: () => handleDelete(project.id)
                         })}

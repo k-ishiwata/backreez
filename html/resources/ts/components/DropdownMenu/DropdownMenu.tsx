@@ -21,26 +21,27 @@ const visibleContext = createContext<VisibleState>({
 export const useVisible = () => useContext(visibleContext).isVisible
 export const useSetVisible = () => useContext(visibleContext).setIsVisible
 
-type DropdownProps =  React.ComponentPropsWithRef<'div'> & {
-    children: React.ReactNode
-}
-
 const DropdownWrapStyle = styled('div', {
     position: 'relative',
 })
 
-export const DropdownWrap = React.forwardRef<HTMLDivElement, DropdownProps>(
-    ({children}
+type DropdownProps =  React.ComponentPropsWithRef<typeof DropdownWrapStyle> & {
+    children: React.ReactNode
+}
+
+export const DropdownWrap = React.forwardRef<HTMLDivElement, DropdownProps>((
+    {children},
+    ref
 ) => {
     const [isVisible, setIsVisible] = useState(false)
 
-    const ref = useClickAway<HTMLDivElement>(() => {
+    const refAway = useClickAway<HTMLDivElement>(() => {
         setIsVisible(false)
     })
 
     return (
-        <visibleContext.Provider value={{ isVisible, setIsVisible}}>
-            <DropdownWrapStyle ref={ref}>
+        <visibleContext.Provider value={{isVisible, setIsVisible}}>
+            <DropdownWrapStyle ref={refAway}>
                 {children}
             </DropdownWrapStyle>
         </visibleContext.Provider>

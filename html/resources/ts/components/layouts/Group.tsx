@@ -1,6 +1,6 @@
 import { styled } from '@/stitches.config'
 
-export const Group = styled('div', {
+const GroupBase = styled('div', {
     display: 'flex',
     alignItems: 'center',
     gap: 20,
@@ -17,4 +17,12 @@ export const Group = styled('div', {
             }
         },
     },
+})
+
+const GroupCol = styled('div', {
+    width: '100%',
+})
+
+export const Group = Object.assign(GroupBase, {
+    Col: GroupCol,
 })

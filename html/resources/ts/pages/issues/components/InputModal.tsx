@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Button } from '@/components'
 import {
-    Grid,
-    Group,
-    Stack,
-    Button,
-    Select,
+    Input,
+    Label,
     Textarea,
-    TextInput
-} from '@mantine/core'
-import { closeAllModals } from '@mantine/modals'
-import { prioritySelect } from '@/components/elements/Priority'
+    Select,
+    UserSelect,
+    DatePicker
+} from '@/components/form'
+import { Group, Stack } from '@/components/layouts'
+import { prioritySelect, BaseModal } from '@/components'
+import { useInputModal } from '@/hooks/modal'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import {
@@ -17,8 +18,6 @@ import {
     useUpdateIssue
 } from '@/queries/issueQuery'
 import { issueSchema } from '@/validations/IssueSchema'
-import { UserSelect } from '@/components/elements/UserSelect'
-import { DateTimePicker } from '@mantine/dates'
 import type { Issue } from 'types/Issue'
 import type { IssueSchema } from '@/validations/IssueSchema'
 import dayjs from 'dayjs'
@@ -26,149 +25,157 @@ import ja from 'dayjs/locale/ja'
 dayjs.locale(ja)
 
 type Props = {
-    editItem?: Issue,
     projectKey?: string
+    // 一覧から開く場合はtrue
+    isListMode?: boolean
+    isScroll?: boolean
 }
 
 export const InputModal: React.FC<Props> = ({
-    editItem,
-    projectKey
+    projectKey,
+    isListMode = false,
+    isScroll = true,
 }) => {
     const {
-        register, handleSubmit, formState: { errors }, setError, control
+        item: issue,
+        isVisible,
+        closeModal
+    } = useInputModal<Issue|undefined>('issue')
+
+    // 一覧での表示はbody表示しない
+    const schema = isListMode
+        ? issueSchema.omit({ body: true })
+        : issueSchema
+
+    const {
+        register, handleSubmit, formState: { errors }, setValue, setError, control, clearErrors
     } = useForm<IssueSchema>({
-        resolver: zodResolver(issueSchema)
+        resolver: zodResolver(schema)
     })
 
     const updateIssue = useUpdateIssue(setError)
     const createIssue = useCreateIssue(setError)
 
+    useEffect(() => {
+        clearErrors()
+        setValue('subject', issue?.subject || '')
+        setValue('body', issue?.body || '')
+        setValue('status_id', issue?.status_id)
+        setValue('priority_id', issue?.priority_id)
+        setValue('due_at', issue?.due_at ? new Date(issue.due_at) : undefined)
+        setValue('user_id', issue?.user_id)
+    }, [issue])
+
     const onSubmit: SubmitHandler<IssueSchema> = data => {
         // editItemがある場合は更新
-        if (editItem) {
+        if (issue) {
             updateIssue.mutate({
-                id: editItem.id,
-                issue: {...editItem, ...data}
+                id: issue.id,
+                issue: {...issue, ...data}
+            }, {
+                onSuccess: closeModal
             })
         } else {
             data.project_key = projectKey
-            createIssue.mutate(data)
+            createIssue.mutate(data, {
+                onSuccess: closeModal
+            })
         }
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack>
-                <TextInput
-                    required
-                    label="タイトル"
-                    error={errors.subject?.message}
-                    defaultValue={editItem?.subject}
-                    {...register('subject')}
-                />
-                <Textarea
-                    label="内容"
-                    autosize
-                    minRows={15}
-                    error={errors.body?.message}
-                    defaultValue={editItem?.body}
-                    {...register('body')}
-                />
-
-                <Grid>
-                    <Grid.Col span={3}>
-                        <Controller
-                            control={control}
-                            name="status_id"
-                            defaultValue={editItem?.status_id}
-                            render={({
-                                field: { onChange, value, name },
-                            }) => (
-                                <Select
-                                    name={name}
-                                    value={String(value)}
-                                    onChange={value => onChange(Number(value))}
-                                    label="ステータス"
-                                    data={[
-                                        { value: '1', label: '未対応' },
-                                        { value: '2', label: '進行中' },
-                                        { value: '3', label: '処理済み' },
-                                        { value: '4', label: '完了' },
-                                    ]}
-                                    error={errors.status_id?.message}
-                                />
-                            )}
+        <BaseModal
+            title={`課題${issue ? '編集' : '登録'}`}
+            handleCloseModal={closeModal}
+            isVisible={isVisible}
+            isScroll={isScroll}
+        >
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack>
+                    <div>
+                        <Label required>タイトル</Label>
+                        <Input
+                            type="text"
+                            {...register('subject')}
+                            error={!!errors.subject}
+                            required
                         />
-                    </Grid.Col>
+                        { errors.subject && <Label error>{errors.subject.message}</Label> }
+                    </div>
 
-                    <Grid.Col span={3}>
-                        <Controller
-                            control={control}
-                            name="priority_id"
-                            defaultValue={editItem?.priority_id}
-                            render={({
-                                field: { onChange, value, name },
-                            }) => (
-                                <Select
-                                    name={name}
-                                    value={String(value)}
-                                    onChange={value => onChange(Number(value))}
-                                    label="優先度"
-                                    data={prioritySelect}
-                                    error={errors.priority_id?.message}
-                                    clearable
-                                />
-                            )}
-                        />
-                    </Grid.Col>
+                    {
+                        !isListMode &&
+                        <div>
+                            <Label required>内容</Label>
+                            <Textarea
+                                {...register('body')}
+                                error={!!errors.body}
+                                required
+                                rows={15}
+                            />
+                            { errors.body && <Label error>{errors.body.message}</Label> }
+                        </div>
+                    }
 
-                    <Grid.Col span={3}>
-                        <Controller
-                            control={control}
-                            name="due_at"
-                            defaultValue={editItem?.due_at}
-                            render={({
-                                field: {onChange, name}
-                            }) => (
-                                <DateTimePicker
-                                    name={name}
-                                    onChange={value => onChange(value)}
-                                    label="期限"
-                                    defaultValue={editItem?.due_at}
-                                    valueFormat="YYYY/MM/DD HH:mm"
-                                    locale="ja"
-                                    error={errors.due_at?.message}
-                                    clearable
-                                />
-                            )}
-                        />
-                    </Grid.Col>
-
-                    <Grid.Col span={3}>
-                        <Controller
-                            control={control}
-                            name="user_id"
-                            defaultValue={editItem?.user_id}
-                            render={({
-                                field: { onChange, value, name },
-                            }) => (
-                                <UserSelect
-                                    name={name}
-                                    value={String(value)}
-                                    onChange={value => onChange(Number(value))}
-                                    label="担当者"
-                                    selectedId={editItem?.user?.id}
-                                    error={errors.user_id?.message}
-                                />
-                            )}
-                        />
-                    </Grid.Col>
-                </Grid>
-            </Stack>
-            <Group spacing="xs" mt="lg">
-                <Button type="submit">保存</Button>
-                <Button variant="outline" onClick={() => closeAllModals()}>キャンセル</Button>
-            </Group>
-        </form>
+                    <Group>
+                        <Group.Col>
+                            <Label>ステータス</Label>
+                            <Select
+                                {...register('status_id', { valueAsNumber: true })}
+                                error={!!errors.status_id}
+                                data={[
+                                    { value: '1', label: '未対応' },
+                                    { value: '2', label: '進行中' },
+                                    { value: '3', label: '処理済み' },
+                                    { value: '4', label: '完了' },
+                                ]}
+                            />
+                            { errors.status_id && <Label error>{errors.status_id.message}</Label> }
+                        </Group.Col>
+                        <Group.Col>
+                            <Label>優先度</Label>
+                            <Select
+                                {...register('priority_id', { valueAsNumber: true })}
+                                error={!!errors.priority_id}
+                                data={prioritySelect}
+                            />
+                            { errors.priority_id && <Label error>{errors.priority_id.message}</Label> }
+                        </Group.Col>
+                        <Group.Col>
+                            <Label>期限</Label>
+                            <Controller
+                                control={control}
+                                name="due_at"
+                                defaultValue={issue?.due_at}
+                                render={({
+                                    field: {onChange, name, value, ref}
+                                }) => (
+                                    <DatePicker
+                                        name={name}
+                                        selected={value}
+                                        onChange={onChange}
+                                        error={!!errors.due_at}
+                                        ref={ref}
+                                    />
+                                )}
+                            />
+                            { errors.due_at && <Label error>{errors.due_at.message}</Label> }
+                        </Group.Col>
+                        <Group.Col>
+                            <Label>担当者</Label>
+                            <UserSelect
+                                {...register('user_id', { valueAsNumber: true })}
+                                selectedId={issue?.user?.id}
+                                error={!!errors.user_id}
+                            />
+                        </Group.Col>
+                    </Group>
+                    <Group gap="sm">
+                        <Button type="submit" primary>保存</Button>
+                        <Button type="button" onClick={closeModal}>キャンセル</Button>
+                    </Group>
+                </Stack>
+            </form>
+        </BaseModal>
     )
 }

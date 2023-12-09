@@ -46,7 +46,8 @@ const useUpdateIssue = (
         },
         onSuccess: (data, variables) => {
             toast.success('データの更新に成功しました。')
-            queryClient.invalidateQueries([`issue`, variables.id])
+            queryClient.invalidateQueries(['issues'])
+            queryClient.invalidateQueries(['issue', variables.id])
 
             closeAllModals()
         }

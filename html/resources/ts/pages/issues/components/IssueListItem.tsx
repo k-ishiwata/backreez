@@ -1,13 +1,12 @@
 import React from 'react'
-import {
-    Group, Button, Anchor, Badge
-} from '@mantine/core'
+import { Button, Badge, Priority } from '@/components'
+import { Group } from '@/components/layouts'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja'
 import { Link } from 'react-router-dom'
-import { Priority } from '@/components/elements/Priority'
 import { useConfirmModal } from '@/hooks/modals'
 import { useDeleteIssue } from '@/queries/issueQuery'
+import { useInputModal } from '@/hooks/modal'
 import type { Issue } from '@/types/Issue'
 
 type Props = {
@@ -17,19 +16,21 @@ type Props = {
 export const IssueListItem: React.FC<Props> = ({
     issue
 }) => {
+    const { openModal } = useInputModal<Issue>('issue')
+
     const deleteIssue = useDeleteIssue()
     const { deleteModal } = useConfirmModal<Issue>(deleteIssue)
 
     return (
         <tr>
             <td width={60}>
-                <Anchor component={Link} to={String(issue.id)}>
+                <Link to={String(issue.id)}>
                     {String(issue.id).padStart(6, '0')}
-                </Anchor>
+                </Link>
             </td>
             <td>{issue.subject}</td>
-            <td width={80}>
-                <Badge fullWidth variant="filled" color={issue.status.color}>
+            <td width={100}>
+                <Badge css={{backgroundColor: issue.status.color}}>
                     {issue.status.name}
                 </Badge>
             </td>
@@ -39,11 +40,14 @@ export const IssueListItem: React.FC<Props> = ({
             </td>
             <td width={80}>{issue.due_at && dayjs(issue.due_at).format('YYYY/MM/DD')}</td>
             <td width={80}>{dayjs(issue.created_at).format('YYYY/MM/DD')}</td>
-            <td width={140}>
-                <Group spacing="xs">
-                    {/*<Button variant="outline" size="xs" component="a" onClick={() => handleEditModal(issue)}>編集</Button>*/}
+            <td width={130}>
+                <Group gap="sm">
                     <Button
-                        color="red" size="xs"
+                        size="sm"
+                        onClick={() => openModal(issue)}
+                    >編集</Button>
+                    <Button
+                        color="red" size="sm"
                         onClick={() => deleteModal(issue)}
                     >削除</Button>
                 </Group>

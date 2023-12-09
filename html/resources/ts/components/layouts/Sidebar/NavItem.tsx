@@ -19,6 +19,15 @@ const Wrap = styled('li', {
             '.icon': {
                 color: '$primary',
             }
+        },
+
+        '&.active': {
+            color: '$primary',
+            fontWeight: 'bold',
+
+            '.icon': {
+                color: '$primary',
+            }
         }
     },
 

@@ -23,7 +23,7 @@ const DropdownItemStyle = styled('button', {
     }
 })
 
-type DropdownItemProps = React.ComponentPropsWithRef<'button'> & {
+type DropdownItemProps = React.ComponentPropsWithRef<typeof DropdownItemStyle> & {
     children: React.ReactNode,
     icon?: React.ReactNode
 }

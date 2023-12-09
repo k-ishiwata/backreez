@@ -5,13 +5,10 @@ import {
     Loader,
     Table,
     Pagination
-} from '@mantine/core'
+} from '@/components'
 import { IssueListItem } from './IssueListItem'
-import useStyles from './IssueList.styles'
 
 export const IssueList: React.FC = () => {
-    const { classes } = useStyles()
-
     const navigate = useNavigate()
     // pageパラメータ取得
     const [ params ] = useSearchParams()
@@ -31,7 +28,7 @@ export const IssueList: React.FC = () => {
     if (error) return <p>データの取得に失敗しました。</p>
     if (! issuePager?.data?.length) return <p>データがありません。</p>
 
-    const { data: issues, last_page } = issuePager
+    const { data: issues, last_page: lastPage } = issuePager
 
     const handlePagerClick = (page: number) => {
         setPage(page)
@@ -41,10 +38,7 @@ export const IssueList: React.FC = () => {
 
     return (
         <div>
-            <Table
-                striped highlightOnHover
-                className={classes.wrapper}
-            >
+            <Table stripe>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -64,11 +58,11 @@ export const IssueList: React.FC = () => {
                 </tbody>
             </Table>
             {
-                last_page !== 1 &&
+                lastPage !== 1 &&
                     <Pagination
-                        value={page}
-                        total={last_page}
-                        onChange={handlePagerClick}
+                        page={page}
+                        total={lastPage}
+                        onClick={handlePagerClick}
                     />
             }
         </div>

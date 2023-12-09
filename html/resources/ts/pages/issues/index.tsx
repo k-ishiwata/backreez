@@ -1,34 +1,26 @@
 import React from 'react'
-import {
-    Button,
-    Title,
-    Group
-} from '@mantine/core'
+import { Group, Container } from '@/components/layouts'
+import { Button } from '@/components'
 import { IssueList } from './components/IssueList'
-import { InputModal } from '@/pages/issues/components/InputModal'
-import { useContentModal } from '@/hooks/modals'
-import { useParams } from "react-router-dom"
+import { InputModal } from './components/InputModal'
+import { useParams } from 'react-router-dom'
+import { useInputModal } from '@/hooks/modal'
 
 const IssuesPage: React.FC = () => {
-    const { openModal } = useContentModal()
+    const { openModal } = useInputModal('issue')
 
     // URLからプロジェクトキーを取得
     const { projectKey } = useParams()
 
     return (
-        <>
-            <Group position="apart">
-                <Title order={2} style={{marginBottom: 20}}>課題一覧</Title>
-                <div>
-                    <Button onClick={() => openModal({
-                        title: '新規作成',
-                        children: <InputModal projectKey={projectKey} />,
-                        size: '70%'
-                    })}>新規作成</Button>
-                </div>
+        <Container size="full">
+            <Group between css={{marginBottom: 10}}>
+                <h1>課題一覧</h1>
+                <Button primary onClick={() => openModal(undefined)}>新規作成</Button>
             </Group>
             <IssueList />
-        </>
+            <InputModal projectKey={projectKey} isListMode={true} isScroll={false} />
+        </Container>
     )
 }
 

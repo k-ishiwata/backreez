@@ -16,22 +16,22 @@ class IssueStatusSeeder extends Seeder
         \DB::table('issue_statuses')->insert([
             [
                 'name' => '未対応',
-                'color' => 'gray',
+                'color' => 'rgb(134,142,150)',
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
                 'name' => '進行中',
-                'color' => 'blue',
+                'color' => 'rgb(51,155,240)',
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
                 'name' => '処理済み',
-                'color' => 'grape',
+                'color' => 'rgb(132,94,247)',
                 'created_at' => now(),
                 'updated_at' => now()
             ], [
                 'name' => '完了',
-                'color' => 'green',
+                'color' => 'rgb(18,184,134)',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

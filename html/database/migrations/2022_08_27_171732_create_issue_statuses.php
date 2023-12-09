@@ -19,7 +19,7 @@ return new class extends Migration
                 ->string('name', 30)
                 ->comment('ステータス名');
             $table
-                ->string('color', 10)
+                ->string('color', 30)
                 ->comment('色');
             $table->timestamps();
         });
