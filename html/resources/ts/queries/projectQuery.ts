@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { setValidationError } from '@/utils/axios'
 import { toast } from 'react-toastify'
-import type { ProjectSchema } from '@/validations/ProjectSchema'
+import type { ProjectSchema } from '@/schemas/ProjectSchema'
 import type { UseFormSetError } from 'react-hook-form/dist/types/form'
 
 const useProjects = (page?: number) => {

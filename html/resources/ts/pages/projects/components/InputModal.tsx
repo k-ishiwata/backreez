@@ -10,9 +10,9 @@ import {
     useCreateProject,
     useUpdateProject
 } from '@/queries/projectQuery'
-import { projectSchema } from '@/validations/ProjectSchema'
+import { projectSchema } from '@/schemas/ProjectSchema'
 import type { Project } from 'types/Project'
-import type { ProjectSchema } from '@/validations/ProjectSchema'
+import type { ProjectSchema } from '@/schemas/ProjectSchema'
 
 export const InputModal: React.FC = () => {
     const {

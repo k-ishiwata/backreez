@@ -3,9 +3,8 @@ import { Button, Badge, Priority } from '@/components'
 import { Group } from '@/components/layouts'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
-import { useConfirmModal } from '@/hooks/modals'
 import { useDeleteIssue } from '@/queries/issueQuery'
-import { useInputModal } from '@/hooks/modal'
+import { useConfirmDialog, useInputModal } from '@/hooks/modal'
 import type { Issue } from '@/types/Issue'
 
 type Props = {
@@ -16,9 +15,15 @@ export const IssueListItem: React.FC<Props> = ({
     issue
 }) => {
     const { openModal } = useInputModal<Issue>('issue')
+    const { openDialog, closeDialog } = useConfirmDialog('delete')
 
     const deleteIssue = useDeleteIssue()
-    const { deleteModal } = useConfirmModal<Issue>(deleteIssue)
+
+    const handleDelete = (id: number) => {
+        deleteIssue.mutate(id, {
+            onSuccess: closeDialog
+        })
+    }
 
     return (
         <tr>
@@ -47,7 +52,11 @@ export const IssueListItem: React.FC<Props> = ({
                     >編集</Button>
                     <Button
                         color="red" size="sm"
-                        onClick={() => deleteModal(issue)}
+                        onClick={() => openDialog({
+                            title: 'プロジェクトの削除',
+                            message: `ID:${issue.id}を本当に削除しますか?`,
+                            action: () => handleDelete(issue.id)
+                        })}
                     >削除</Button>
                 </Group>
             </td>

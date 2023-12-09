@@ -1,11 +1,10 @@
 import * as api from '@/api/issueAPI'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { UseFormSetError } from 'react-hook-form/dist/types/form'
-import { IssueSchema } from '@/validations/IssueSchema'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import { setValidationError } from '@/utils/axios'
-import { closeAllModals } from '@mantine/modals'
+import type { IssueSchema } from '@/schemas/IssueSchema'
 
 const useIssues = (request: object, page?: number) => {
     return useQuery([`issues`, page], () => api.getIssues({...request, page: page}))
@@ -28,8 +27,6 @@ const useCreateIssue = (
         onSuccess: () => {
             toast.success('データの登録に成功しました。')
             queryClient.invalidateQueries(['issues'])
-
-            closeAllModals()
         }
     })
 }
@@ -48,8 +45,6 @@ const useUpdateIssue = (
             toast.success('データの更新に成功しました。')
             queryClient.invalidateQueries(['issues'])
             queryClient.invalidateQueries(['issue', variables.id])
-
-            closeAllModals()
         }
     })
 }

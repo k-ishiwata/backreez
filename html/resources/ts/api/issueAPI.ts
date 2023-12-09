@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IssueSchema } from '@/validations/IssueSchema'
+import { IssueSchema } from '@/schemas/IssueSchema'
 import { format } from 'date-fns'
 import type { Issue, IssuePager } from '@/types/Issue'
 

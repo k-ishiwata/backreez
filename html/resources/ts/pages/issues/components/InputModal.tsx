@@ -17,9 +17,9 @@ import {
     useCreateIssue,
     useUpdateIssue
 } from '@/queries/issueQuery'
-import { issueSchema } from '@/validations/IssueSchema'
+import { issueSchema } from '@/schemas/IssueSchema'
 import type { Issue } from 'types/Issue'
-import type { IssueSchema } from '@/validations/IssueSchema'
+import type { IssueSchema } from '@/schemas/IssueSchema'
 
 type Props = {
     projectKey?: string

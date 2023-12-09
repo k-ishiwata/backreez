@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { Project, ProjectPager } from '@/types/Project'
-import type { ProjectSchema } from '@/validations/ProjectSchema'
+import type { ProjectSchema } from '@/schemas/ProjectSchema'
 const API_URI = '/api/projects'
 
 const getProjects = async (page?: number) => {
