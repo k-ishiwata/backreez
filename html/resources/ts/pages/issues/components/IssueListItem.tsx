@@ -34,9 +34,11 @@ export const IssueListItem: React.FC<Props> = ({
             </td>
             <td>{issue.subject}</td>
             <td width={100}>
-                <Badge css={{backgroundColor: issue.status.color}}>
-                    {issue.status.name}
-                </Badge>
+                {issue.status &&
+                    <Badge css={{backgroundColor: issue.status.color}}>
+                        {issue.status.name}
+                    </Badge>
+                }
             </td>
             <td width={120}>{issue.user?.name}</td>
             <td width={80}>

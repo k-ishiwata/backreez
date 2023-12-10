@@ -32,9 +32,11 @@ export const IssueDetail: React.FC = () => {
         <Container>
             <Group between css={{marginBottom: 10}}>
                 <Group>
-                    <Badge css={{backgroundColor: issue.status.color, width: 100}}>
-                        {issue.status.name}
-                    </Badge>
+                    {issue.status &&
+                        <Badge css={{backgroundColor: issue.status.color, width: 100}}>
+                            {issue.status.name}
+                        </Badge>
+                    }
                     <span>登録日：{format(issue.created_at, 'yyyy/MM/dd HH:mm')}</span>
                     <span>更新日：{format(issue.created_at, 'yyyy/MM/dd HH:mm')}</span>
                 </Group>
@@ -59,7 +61,7 @@ export const IssueDetail: React.FC = () => {
                         </tr>
                         <tr>
                             <td>ステータス</td>
-                            <td>{issue.status.name}</td>
+                            <td>{issue.status?.name}</td>
                         </tr>
                         <tr>
                             <td>登録日</td>
@@ -71,7 +73,7 @@ export const IssueDetail: React.FC = () => {
                     <tbody>
                         <tr>
                             <td width={140}>優先度</td>
-                            <td><Priority selectedId={issue.priority_id} /></td>
+                            <td><Priority selectedId={issue?.priority_id} /></td>
                         </tr>
                         <tr>
                             <td>担当者</td>

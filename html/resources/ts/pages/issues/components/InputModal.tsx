@@ -54,13 +54,14 @@ export const InputModal: React.FC<Props> = ({
     const createIssue = useCreateIssue(setError)
 
     useEffect(() => {
+        console.log(issue?.user_id)
         clearErrors()
         setValue('subject', issue?.subject || '')
         setValue('body', issue?.body || '')
-        setValue('status_id', issue?.status_id)
-        setValue('priority_id', issue?.priority_id)
-        setValue('due_at', issue?.due_at ? new Date(issue.due_at) : undefined)
-        setValue('user_id', issue?.user_id)
+        setValue('status_id', issue?.status_id || 1)
+        setValue('priority_id', issue?.priority_id || undefined)
+        setValue('due_at', issue?.due_at)
+        setValue('user_id', issue?.user_id || undefined)
     }, [issue])
 
     const onSubmit: SubmitHandler<IssueSchema> = data => {
@@ -101,7 +102,7 @@ export const InputModal: React.FC<Props> = ({
                     </div>
 
                     {
-                        !isListMode &&
+                        ! isListMode &&
                         <div>
                             <Label required>内容</Label>
                             <Textarea
@@ -120,6 +121,7 @@ export const InputModal: React.FC<Props> = ({
                             <Select
                                 {...register('status_id', { valueAsNumber: true })}
                                 error={!!errors.status_id}
+                                required
                                 data={[
                                     { value: '1', label: '未対応' },
                                     { value: '2', label: '進行中' },
@@ -132,7 +134,9 @@ export const InputModal: React.FC<Props> = ({
                         <Group.Col>
                             <Label>優先度</Label>
                             <Select
-                                {...register('priority_id', { valueAsNumber: true })}
+                                {...register('priority_id', {
+                                    setValueAs: v => v === '' ? null : parseInt(v),
+                                })}
                                 error={!!errors.priority_id}
                                 data={prioritySelect}
                             />
@@ -161,10 +165,13 @@ export const InputModal: React.FC<Props> = ({
                         <Group.Col>
                             <Label>担当者</Label>
                             <UserSelect
-                                {...register('user_id', { valueAsNumber: true })}
+                                {...register('user_id', {
+                                   setValueAs: v => v === '' ? null : parseInt(v),
+                                })}
                                 selectedId={issue?.user?.id}
                                 error={!!errors.user_id}
                             />
+                            { errors.user_id && <Label error>{errors.user_id.message}</Label> }
                         </Group.Col>
                     </Group>
                     <Group gap="sm">

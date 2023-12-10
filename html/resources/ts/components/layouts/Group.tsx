@@ -2,13 +2,17 @@ import { styled } from '@/stitches.config'
 
 const GroupBase = styled('div', {
     display: 'flex',
-    alignItems: 'center',
     gap: 20,
 
     variants: {
         between: {
             true: {
                 justifyContent: 'space-between',
+            }
+        },
+        center: {
+            true: {
+                alignItems: 'center',
             }
         },
         gap: {

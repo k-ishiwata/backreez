@@ -65,7 +65,7 @@ export const Select = React.forwardRef<HTMLSelectElement, Props>((
     return (
         <SelectWrap>
             <SelectStyle {...props} ref={ref}>
-                <option value=""></option>
+                {!props.required && <option value=""></option>}
                 {data.map((item, key) => (
                     <option key={key} value={item.value}>{item.label}</option>
                 ))}

@@ -51,7 +51,7 @@ export const Header: React.FC= () => {
 
                 <DropdownMenu>
                     <DropdownMenu.Trigger>
-                        <Group css={{gap: 3}}>
+                        <Group css={{gap: 3}} center>
                             <Avatar>U</Avatar>
                             <IoChevronDownOutline />
                         </Group>
