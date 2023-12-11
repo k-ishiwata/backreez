@@ -6,16 +6,7 @@ import ja from 'date-fns/locale/ja'
 registerLocale('ja', ja)
 
 const DatePickerStyle  = styled(ReactDatePicker, {
-    width: '100%',
-    display: 'block',
-    textAlign: 'left',
-    border: '1px solid $border',
-    transition: 'border-color 100ms ease',
-    padding: 'calc(2.2rem / 3)',
-    paddingRight: 30,
-    borderRadius: '$md',
-    outlineColor: '$primary',
-    margin: '4px 0',
+    inputBase: '',
 
     variants: {
         size: {

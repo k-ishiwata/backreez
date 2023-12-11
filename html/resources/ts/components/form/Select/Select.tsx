@@ -21,17 +21,9 @@ export const SelectWrap  = styled('div', {
 })
 
 export const SelectStyle = styled('select', {
-    appearance: 'none',
-    width: '100%',
-    display: 'block',
-    textAlign: 'left',
-    border: '1px solid $border',
-    transition: 'border-color 100ms ease',
-    padding: 'calc(2.2rem / 3)',
-    paddingRight: 30,
-    borderRadius: '$md',
-    outlineColor: '$primary',
-    margin: '4px 0',
+    inputBase: '',
+    paddingTop: 0,
+    paddingBottom: 0,
 
     variants: {
         size: {
