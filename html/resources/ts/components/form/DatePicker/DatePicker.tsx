@@ -1,29 +1,14 @@
 import React from 'react'
 import { styled } from '@/stitches.config'
+import { inputBase } from '@/components/form/base.styles'
 import ReactDatePicker, { registerLocale } from 'react-datepicker'
 import ja from 'date-fns/locale/ja'
 
 registerLocale('ja', ja)
 
 const DatePickerStyle  = styled(ReactDatePicker, {
-    inputBase: '',
-
-    variants: {
-        size: {
-            sm: {
-                paddingLeft: 'calc(1.7rem / 3)',
-                paddingRight: 'calc(1.7rem / 3)',
-            }
-        },
-        error: {
-            true: {
-                color: '$red',
-                borderColor: '$red',
-            }
-        },
-    }
+    ...inputBase,
 })
-
 
 type Props = React.ComponentPropsWithRef<typeof DatePickerStyle> & {
     name: string

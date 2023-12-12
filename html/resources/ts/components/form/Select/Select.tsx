@@ -1,5 +1,6 @@
 import { styled } from '@/stitches.config'
-import React from "react"
+import React from 'react'
+import { inputBase } from '@/components/form/base.styles'
 
 export const SelectWrap  = styled('div', {
     position: 'relative',
@@ -21,26 +22,10 @@ export const SelectWrap  = styled('div', {
 })
 
 export const SelectStyle = styled('select', {
-    inputBase: '',
+    ...inputBase,
     paddingTop: 0,
     paddingBottom: 0,
-
-    variants: {
-        size: {
-            sm: {
-                paddingLeft: 'calc(1.7rem / 3)',
-                paddingRight: 'calc(1.7rem / 3)',
-            }
-        },
-        error: {
-            true: {
-                color: '$red',
-                borderColor: '$red',
-            }
-        },
-    }
 })
-
 
 type Props = React.ComponentPropsWithRef<typeof SelectStyle> & {
     data: {value: string, label: string}[]

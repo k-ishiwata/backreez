@@ -30,8 +30,10 @@ const LoginPage: React.FC = () => {
                             {...register('email', {
                                 required: '必ず入力してください。'
                             })}
+                            error={!!errors.email}
                             defaultValue="admin@example.com"
                         />
+                        { errors.email && <Label error>{errors.email.message}</Label> }
                     </div>
                     <div>
                         <Label required>パスワード</Label>
@@ -40,11 +42,13 @@ const LoginPage: React.FC = () => {
                             {...register('password', {
                                 required: '必ず入力してください。'
                             })}
+                            error={!!errors.password}
                             defaultValue="123456789"
                         />
+                        { errors.password && <Label error>{errors.password.message}</Label> }
                     </div>
 
-                    <Group>
+                    <Group center>
                         <Button type="submit" primary>ログイン</Button>
                         <a href="#">新規ユーザー登録</a>
                     </Group>

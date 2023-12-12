@@ -1,21 +1,8 @@
 import { styled } from '@/stitches.config'
+import { inputBase } from '@/components/form/base.styles'
 
 export const Textarea = styled('textarea', {
-    inputBase: '',
+    ...inputBase,
     height: 'auto',
     lineHeight: 1.5,
-
-    variants: {
-        size: {
-            sm: {
-                paddingLeft: 'calc(1.7rem / 3)',
-                paddingRight: 'calc(1.7rem / 3)',
-            }
-        },
-        error: {
-            true: {
-                inputError: ''
-            }
-        },
-    }
 })

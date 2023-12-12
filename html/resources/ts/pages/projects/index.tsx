@@ -10,7 +10,7 @@ const ProjectPage: React.FC = () => {
 
     return (
         <Container>
-            <Group between css={{marginBottom: 10}}>
+            <Group justify="between" css={{marginBottom: 10}}>
                 <h1>プロジェクト一覧</h1>
                 <Button primary onClick={() => openModal(undefined)}>新規作成</Button>
             </Group>

@@ -14,7 +14,7 @@ const IssuesPage: React.FC = () => {
 
     return (
         <Container size="full">
-            <Group between css={{marginBottom: 10}}>
+            <Group justify="between" css={{marginBottom: 10}}>
                 <h1>課題一覧</h1>
                 <Button primary onClick={() => openModal(undefined)}>新規作成</Button>
             </Group>

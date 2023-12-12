@@ -5,10 +5,19 @@ const GroupBase = styled('div', {
     gap: 20,
 
     variants: {
-        between: {
-            true: {
+        justify: {
+            start: {
+                justifyContent: 'flex-start',
+            },
+            end: {
+                justifyContent: 'flex-end',
+            },
+            between: {
                 justifyContent: 'space-between',
-            }
+            },
+            center: {
+                justifyContent: 'center',
+            },
         },
         center: {
             true: {
