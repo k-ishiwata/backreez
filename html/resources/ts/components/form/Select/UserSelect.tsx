@@ -21,7 +21,7 @@ export const UserSelect = React.forwardRef<HTMLSelectElement, Props>((
 ) => {
     const { isLoading, error, data } = useSelectUsers()
 
-    if (isLoading) return <Loader />
+    if (isLoading) return <Loader size="sm" />
     if (error) return <p>担当者情報の取得に失敗しました。</p>
     if (! data?.length) return <p>データがありません。</p>
 

@@ -145,7 +145,7 @@ export const DeleteConfirmDialog: React.FC = () => {
                                 <ModalTitle>{item.title}</ModalTitle>
                                 <Body>{item.message}</Body>
                                 <Footer>
-                                    <Group gap="sm" css={{ justifyContent: 'flex-end' }}>
+                                    <Group gap="sm" justify="end">
                                         <Button onClick={closeDialog}>キャンセル</Button>
                                         <Button color="red" onClick={item.action}>削除</Button>
                                     </Group>

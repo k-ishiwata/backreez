@@ -54,7 +54,6 @@ export const InputModal: React.FC<Props> = ({
     const createIssue = useCreateIssue(setError)
 
     useEffect(() => {
-        console.log(issue?.user_id)
         clearErrors()
         setValue('subject', issue?.subject || '')
         setValue('body', issue?.body || '')
@@ -174,6 +173,7 @@ export const InputModal: React.FC<Props> = ({
                             { errors.user_id && <Label error>{errors.user_id.message}</Label> }
                         </Group.Col>
                     </Group>
+
                     <Group gap="sm">
                         <Button type="submit" primary>保存</Button>
                         <Button type="button" onClick={closeModal}>キャンセル</Button>

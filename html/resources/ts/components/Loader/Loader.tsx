@@ -25,4 +25,21 @@ export const Loader = styled('div', {
         width: 50,
         height: 50,
     },
+
+    variants: {
+        size: {
+            sm: {
+                width: 20,
+                height: 20,
+                margin: '12px 0',
+                borderWidth: '.3em',
+
+                '&:after': {
+                    width: 20,
+                    height: 20,
+                },
+
+            }
+        }
+    }
 })
