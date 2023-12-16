@@ -34,14 +34,15 @@ return new class extends Migration
                 ->unsigned()
                 ->nullable()
                 ->comment('優先度');
-            $table->timestamp('due_at')
+            $table->datetime('due_at')
                 ->nullable()
                 ->comment('期限');
             $table->foreignId('user_id')
                 ->nullable()
                 ->comment('ユーザーID');
-            $table->softDeletes();
-            $table->timestamps();
+            $table->datetime('deleted_at')
+                ->nullable();
+            $table->datetimes();
         });
     }
 

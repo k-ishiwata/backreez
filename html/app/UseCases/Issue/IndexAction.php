@@ -21,11 +21,12 @@ class IndexAction
      */
     public function __invoke(Request $request): LengthAwarePaginator
     {
-        $query = Issue::with([
+        return Issue::with([
             'project:id,key,name',
             'status:id,name,color',
             'user:id,name'
-        ])->select(
+        ])
+        ->select(
             'id',
             'subject',
             'status_id',
@@ -35,13 +36,9 @@ class IndexAction
             'user_id',
             'updated_at',
             'created_at'
-        );
-
-        // project_keyで絞り込む
-        if ($request->filled('project_key')) {
-            $query->where('project_key', $request->project_key);
-        }
-
-        return $query->latest()->paginate(self::DISPLAY_NUMBER);
+        )
+        ->search($request)
+        ->latest()
+        ->paginate(self::DISPLAY_NUMBER);
     }
 }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table
                 ->string('color', 30)
                 ->comment('色');
-            $table->timestamps();
+            $table->datetimes();
         });
     }
 

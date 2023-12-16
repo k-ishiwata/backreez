@@ -92,6 +92,66 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
+    public function 一覧project_keyで検索できる(): void
+    {
+        Issue::factory(['project_key' => 'AAA'])->create();
+        Issue::factory(['project_key' => 'AAA'])->create();
+        Issue::factory(['project_key' => 'BBB'])->create();
+
+        $this->getJson(self::URL . '?project_key=AAA')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonFragment(['project_key' => 'AAA']);
+    }
+
+    /**
+     * @test
+     */
+    public function 一覧subjectで検索できる(): void
+    {
+        Issue::factory(['subject' => 'BAB'])->create();
+        Issue::factory(['subject' => 'AAA'])->create();
+        Issue::factory(['subject' => 'BBB'])->create();
+
+        $this->getJson(self::URL . '?subject=A')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonFragment(['subject' => 'BAB']);
+    }
+
+    /**
+     * @test
+     */
+    public function 一覧status_idで検索できる(): void
+    {
+        Issue::factory(['status_id' => 1])->create();
+        Issue::factory(['status_id' => 2])->create();
+        Issue::factory(['status_id' => 2])->create();
+
+        $this->getJson(self::URL . '?status_id=2')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonFragment(['status_id' => 2]);
+    }
+
+    /**
+     * @test
+     */
+    public function 一覧priority_idで検索できる(): void
+    {
+        Issue::factory(['priority_id' => 1])->create();
+        Issue::factory(['priority_id' => 2])->create();
+        Issue::factory(['priority_id' => 2])->create();
+
+        $this->getJson(self::URL . '?priority_id=2')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonFragment(['priority_id' => 2]);
+    }
+
+    /**
+     * @test
+     */
     public function 詳細表示できる(): void
     {
         $this->createData();

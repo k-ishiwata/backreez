@@ -18,8 +18,8 @@ return new class extends Migration
             $table->char('key', 10)->unique();
             $table->string('name', 30)->comment('プロジェクト名');
             $table->string('description', 255)->nullable()->comment('概要');
-            $table->softDeletes();
-            $table->timestamps();
+            $table->datetime('deleted_at')->nullable();
+            $table->datetimes();
         });
     }
 
