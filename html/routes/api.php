@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\IssueController;
+use App\Http\Controllers\IssueStatusController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -23,5 +24,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthenticatedController::class, 'user']);
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('issues', IssueController::class);
+    Route::apiResource('issue-statuses', IssueStatusController::class);
     Route::get('users/select-list', [UserController::class, 'selectList']);
 });
