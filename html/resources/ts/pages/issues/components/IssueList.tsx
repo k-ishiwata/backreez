@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useIssues } from '@/queries/issueQuery'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
     Loader,
     Table,
@@ -8,21 +8,22 @@ import {
 } from '@/components'
 import { IssueListItem } from './IssueListItem'
 
-export const IssueList: React.FC = () => {
+type Props = {
+    searchParam: object
+}
+
+export const IssueList: React.FC<Props> = ({
+    searchParam
+}) => {
     const navigate = useNavigate()
     // pageパラメータ取得
     const [ params ] = useSearchParams()
     const pageParam = params.get('page') || 1
 
-    // URLからプロジェクトキーを取得
-    const { projectKey } = useParams()
-
     // 現在のページ
     const [page, setPage] = useState<number>(Number(pageParam))
 
-    const { isLoading, error, data: issuePager } = useIssues({
-        'project_key': projectKey
-    }, Number(pageParam))
+    const { isLoading, error, data: issuePager } = useIssues(searchParam, Number(pageParam))
 
     if (isLoading) return <Loader />
     if (error) return <p>データの取得に失敗しました。</p>

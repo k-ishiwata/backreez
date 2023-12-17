@@ -5,7 +5,7 @@ import { SelectWrap, SelectStyle } from './Select'
 
 type Props = React.ComponentPropsWithRef<typeof SelectStyle> & {
     selectedId?: number
-    error: boolean
+    error?: boolean
 }
 
 /**

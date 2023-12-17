@@ -61,6 +61,11 @@ class Issue extends Model
      */
     public function scopeSearch(Builder $query, Request $request): Builder
     {
+        // IDで絞り込む
+        if ($request->filled('id')) {
+            $query->where('id', $request->input('id'));
+        }
+
         // プロジェクトキーで絞り込む
         if ($request->filled('project_key')) {
             $query->where('project_key', $request->input('project_key'));
@@ -84,6 +89,14 @@ class Issue extends Model
         // 優先度で絞り込む
         if ($request->filled('priority_id')) {
             $query->where('priority_id', $request->integer('priority_id'));
+        }
+
+        // 期限で絞り込む
+        if ($request->filled('due_at')) {
+            $date = $request->date('due_at');
+            $query->whereBetween('due_at', [
+                $date?->format('Y-m-d 00:00:00'), $date?->format('Y-m-d 23:59:59')
+            ]);
         }
 
         // 登録日で絞り込む

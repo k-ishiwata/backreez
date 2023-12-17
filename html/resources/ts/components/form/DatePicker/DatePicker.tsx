@@ -12,12 +12,14 @@ const DatePickerStyle  = styled(ReactDatePicker, {
 
 type Props = React.ComponentPropsWithRef<typeof DatePickerStyle> & {
     name: string
-    error: boolean
+    error?: boolean
+    dateFormat?: string
 }
 
 export const DatePicker = React.forwardRef<HTMLSelectElement, Props>((
     {
         name,
+        dateFormat = 'yyyy-MM-dd HH:mm',
         ...props
     },
     ref
@@ -31,9 +33,8 @@ export const DatePicker = React.forwardRef<HTMLSelectElement, Props>((
             {...props}
             name={name}
             locale="ja"
-            showTimeSelect
             isClearable={true}
-            dateFormat="yyyy-MM-dd HH:mm"
+            dateFormat={dateFormat}
             autoComplete="off"
         />
     )

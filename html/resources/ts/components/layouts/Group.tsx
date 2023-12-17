@@ -26,7 +26,7 @@ const GroupBase = styled('div', {
         },
         gap: {
             sm: {
-                gap: 5,
+                gap: 10,
             }
         },
     },

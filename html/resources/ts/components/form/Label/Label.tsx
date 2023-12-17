@@ -2,6 +2,9 @@ import { styled } from '@/stitches.config'
 
 export const Label = styled('label', {
     display: 'block',
+    marginTop: 4,
+    marginBottom: 4,
+
     variants: {
         required: {
             true: {
@@ -10,6 +13,11 @@ export const Label = styled('label', {
                     content: ' *',
                     fontSize: 15,
                 }
+            }
+        },
+        size: {
+            sm: {
+                fontSize: '$sm',
             }
         },
         error: {

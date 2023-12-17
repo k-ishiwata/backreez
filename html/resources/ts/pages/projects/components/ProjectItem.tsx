@@ -50,7 +50,7 @@ export const ProjectItem: React.FC<Props> = ({
             </td>
             <td>{format(project.created_at, 'yyyy/MM/dd')}</td>
             <td>{format(project.updated_at, 'yyyy/MM/dd')}</td>
-            <td width={130}>
+            <td width={140}>
                 <Group gap="sm">
                     <Button
                         size="sm"

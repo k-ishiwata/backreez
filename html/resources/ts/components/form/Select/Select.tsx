@@ -25,11 +25,24 @@ export const SelectStyle = styled('select', {
     ...inputBase,
     paddingTop: 0,
     paddingBottom: 0,
+    paddingRight: 32,
+
+    variants: {
+        ...inputBase.variants,
+        size: {
+            sm: {
+                height: '1.85rem',
+                minHeight: '1.85rem',
+                paddingLeft: 'calc(1.85rem / 3)',
+                paddingRight: 32,
+            }
+        },
+    }
 })
 
 type Props = React.ComponentPropsWithRef<typeof SelectStyle> & {
     data: {value: string, label: string}[]
-    error: boolean
+    error?: boolean
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, Props>((

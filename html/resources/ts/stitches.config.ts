@@ -34,7 +34,7 @@ export const { styled, keyframes } = createStitches({
             sans: 'Inter, sans-serif',
         },
         fontSizes: {
-            sm: '11px',
+            sm: '12px',
             md: '13px',
             lg: '15px',
             lgx: '17px',

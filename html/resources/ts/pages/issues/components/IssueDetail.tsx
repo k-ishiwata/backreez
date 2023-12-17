@@ -30,7 +30,7 @@ export const IssueDetail: React.FC = () => {
 
     return (
         <Container>
-            <Group justify="between" css={{marginBottom: 10}}>
+            <Group justify="between" center css={{marginBottom: 10}}>
                 <Group>
                     {issue.status &&
                         <Badge css={{backgroundColor: issue.status.color, width: 100}}>

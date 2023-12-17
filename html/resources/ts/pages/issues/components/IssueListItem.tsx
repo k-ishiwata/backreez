@@ -46,7 +46,7 @@ export const IssueListItem: React.FC<Props> = ({
             </td>
             <td width={80}>{issue.due_at && format(issue.due_at, 'yyyy/MM/dd')}</td>
             <td width={80}>{format(issue.created_at, 'yyyy/MM/dd')}</td>
-            <td width={130}>
+            <td width={140}>
                 <Group gap="sm">
                     <Button
                         size="sm"

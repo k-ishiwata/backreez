@@ -12,15 +12,14 @@ export const inputBase = {
     padding: 'calc(2.2rem / 3)',
     borderRadius: '$md',
     outlineColor: '$primary',
-    margin: '4px 0',
 
     variants: {
         size: {
             sm: {
-                height: '1.7rem',
-                minHeight: '1.7rem',
-                paddingLeft: 'calc(1.7rem / 3)',
-                paddingRight: 'calc(1.7rem / 3)',
+                height: '1.85rem',
+                minHeight: '1.85rem',
+                paddingLeft: 'calc(1.85rem / 3)',
+                paddingRight: 'calc(1.85rem / 3)',
             }
         },
         error: {

@@ -156,6 +156,7 @@ export const InputModal: React.FC<Props> = ({
                                         onChange={onChange}
                                         error={!!errors.due_at}
                                         ref={ref}
+                                        showTimeSelect
                                     />
                                 )}
                             />

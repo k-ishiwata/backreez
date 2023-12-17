@@ -7,7 +7,7 @@ import { setValidationError } from '@/utils/axios'
 import type { IssueSchema } from '@/schemas/IssueSchema'
 
 const useIssues = (request: object, page?: number) => {
-    return useQuery([`issues`, page], () => api.getIssues({...request, page: page}))
+    return useQuery([`issues`, request, page], () => api.getIssues({...request, page: page}))
 }
 
 const useIssue = (id: number) => {

@@ -17,7 +17,8 @@ export const Button = styled('button', {
     backgroundColor: '$gray',
     fontSize: '$md',
     padding: '0.6em 1.1rem',
-    height: '2rem',
+    height: '2.2rem',
+    minHeight: '2.2rem',
 
     '&:hover': {
         opacity: .9,
@@ -55,9 +56,9 @@ export const Button = styled('button', {
                 height: '1.7rem',
             },
             sm: {
-                fontSize: '$sm',
-                padding: '0.3em 0.8rem',
-                height: '1.7rem',
+                padding: '0.3em 0.9rem',
+                height: '1.85rem',
+                minHeight: '1.85rem',
             }
         },
         variant: {
