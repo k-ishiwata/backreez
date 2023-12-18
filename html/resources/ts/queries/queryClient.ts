@@ -5,7 +5,9 @@ const queryClient = new QueryClient({
         queries: {
             retry: false,
             // Windowフォーカス時再取得しない
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
+            // キャッシュを使用する
+            staleTime: Infinity,
         },
         mutations: {
             retry: false

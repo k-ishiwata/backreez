@@ -11,8 +11,8 @@ import {
 } from '@/components'
 import { Group, Container } from '@/components/layouts'
 import { format } from 'date-fns'
-import { useInputModal } from "@/hooks/modal"
-import { Issue } from "@/types/Issue"
+import { useInputModal } from '@/hooks/modal'
+import { Issue } from '@/types/Issue'
 
 export const IssueDetail: React.FC = () => {
 
@@ -40,10 +40,7 @@ export const IssueDetail: React.FC = () => {
                     <span>登録日：{format(issue.created_at, 'yyyy/MM/dd HH:mm')}</span>
                     <span>更新日：{format(issue.created_at, 'yyyy/MM/dd HH:mm')}</span>
                 </Group>
-                <Button
-                    primary
-                    onClick={() => openModal(issue)}
-                >編集</Button>
+                <Button onClick={() => openModal(issue)}>編集</Button>
             </Group>
 
             <h1 style={{marginBottom: 20}}>{issue.subject}</h1>

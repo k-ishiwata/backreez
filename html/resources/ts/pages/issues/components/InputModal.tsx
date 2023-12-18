@@ -6,6 +6,7 @@ import {
     Textarea,
     Select,
     UserSelect,
+    IssueStatusSelect,
     DatePicker
 } from '@/components/form'
 import { Group, Stack } from '@/components/layouts'
@@ -117,16 +118,10 @@ export const InputModal: React.FC<Props> = ({
                     <Group>
                         <Group.Col>
                             <Label>ステータス</Label>
-                            <Select
+                            <IssueStatusSelect
                                 {...register('status_id', { valueAsNumber: true })}
                                 error={!!errors.status_id}
                                 required
-                                data={[
-                                    { value: '1', label: '未対応' },
-                                    { value: '2', label: '進行中' },
-                                    { value: '3', label: '処理済み' },
-                                    { value: '4', label: '完了' },
-                                ]}
                             />
                             { errors.status_id && <Label error>{errors.status_id.message}</Label> }
                         </Group.Col>

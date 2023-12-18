@@ -10,6 +10,7 @@ use App\UseCases\IssueStatus\DestroyAction;
 use App\UseCases\IssueStatus\IndexAction;
 use App\UseCases\IssueStatus\StoreAction;
 use App\UseCases\IssueStatus\UpdateAction;
+use App\UseCases\IssueStatus\SelectListAction;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -64,5 +65,16 @@ class IssueStatusController extends Controller
     public function destroy(DestroyAction $action, IssueStatus $issueStatus): JsonResponse
     {
         return response()->json($action($issueStatus));
+    }
+
+    /**
+     * セレクトボックス用課題ステータス一覧
+     *
+     * @param  SelectListAction  $action
+     * @return JsonResponse
+     */
+    public function selectList(SelectListAction $action): JsonResponse
+    {
+        return response()->json($action());
     }
 }

@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthenticatedController::class, 'user']);
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('issues', IssueController::class);
+    Route::get('issue-statuses/select-list', [IssueStatusController::class, 'selectList']);
     Route::apiResource('issue-statuses', IssueStatusController::class);
     Route::get('users/select-list', [UserController::class, 'selectList']);
 });

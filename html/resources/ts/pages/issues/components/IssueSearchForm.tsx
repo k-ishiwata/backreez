@@ -6,6 +6,7 @@ import {
     Label,
     Select,
     UserSelect,
+    IssueStatusSelect,
     DatePicker,
 } from '@/components/form'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
@@ -67,14 +68,10 @@ export const IssueSearchForm: React.FC<Props> = ({
                 </div>
                 <div>
                     <Label size="sm">状態</Label>
-                    <Select
-                        {...register('status_id', { valueAsNumber: true })}
-                        data={[
-                            { value: '1', label: '未対応' },
-                            { value: '2', label: '進行中' },
-                            { value: '3', label: '処理済み' },
-                            { value: '4', label: '完了' },
-                        ]}
+                    <IssueStatusSelect
+                        {...register('status_id', {
+                            setValueAs: v => v === '' ? null : parseInt(v),
+                        })}
                         size="sm"
                     />
                 </div>
