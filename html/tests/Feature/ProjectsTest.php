@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Models\Project;
+use App\Models\User;
 use App\UseCases\Project\IndexAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class ProjectsTest extends TestCase
@@ -20,6 +22,10 @@ class ProjectsTest extends TestCase
         parent::setUp();
 
         Project::factory(40)->create();
+
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $this->user = Auth::user();
     }
 
     /**
@@ -76,11 +82,11 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function idで取得できる(): void
+    public function keyで取得できる(): void
     {
         $data = Project::first();
 
-        $response = $this->getJson(self::URL . '/' . $data->id);
+        $response = $this->getJson(self::URL . '/' . $data->key);
         $response
             ->assertOk()
             ->assertExactJson($data->toArray());
@@ -100,7 +106,7 @@ class ProjectsTest extends TestCase
         $response->assertOk();
 
         $this->assertDatabaseHas('projects', $data->only([
-            'id', 'name', 'description'
+            'id', 'key', 'name', 'description'
         ]));
     }
 
@@ -114,7 +120,7 @@ class ProjectsTest extends TestCase
         $response = $this->deleteJson(self::URL.'/'.$data->id);
         $response->assertOk();
 
-        $this->assertDatabaseMissing('projects', $data->only([
+        $this->assertSoftDeleted('projects', $data->only([
             'id', 'name', 'description'
         ]));
     }

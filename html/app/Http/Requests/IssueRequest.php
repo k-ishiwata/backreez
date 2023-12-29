@@ -30,7 +30,7 @@ class IssueRequest extends FormRequest
             'body'        => 'string|max:4000',
             'status_id'   => 'nullable|integer',
             'priority_id' => 'nullable|integer',
-            'project_key' => 'required|string',
+            'project_id'  => 'required|integer',
             'due_at'      => 'nullable|date',
             'user_id'     => 'nullable|integer',
         ];

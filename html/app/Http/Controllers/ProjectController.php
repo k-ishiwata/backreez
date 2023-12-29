@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ProjectController extends Controller
 {
     /**
-     * @param  IndexAction  $action
+     * @param  \App\UseCases\Issue\IndexAction  $action
      * @return JsonResponse
      */
     public function index(IndexAction $action): JsonResponse
@@ -35,14 +35,12 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  Project  $project
+     * @param  string  $key
      * @return JsonResponse
      */
-    public function show(Project $project): JsonResponse
+    public function show(string $key): JsonResponse
     {
-        return response()->json($project);
+        return response()->json(Project::where('key', $key)->first());
     }
 
     /**

@@ -19,7 +19,7 @@ class Issue extends Model
         'body',
         'status_id',
         'priority_id',
-        'project_key',
+        'project_id',
         'due_at',
         'user_id',
     ];
@@ -33,7 +33,7 @@ class Issue extends Model
      */
     public function project(): BelongsTo
     {
-        return $this->belongsTo(Project::class, 'project_key', 'key');
+        return $this->belongsTo(Project::class);
     }
 
     /**
@@ -66,9 +66,9 @@ class Issue extends Model
             $query->where('id', $request->input('id'));
         }
 
-        // プロジェクトキーで絞り込む
-        if ($request->filled('project_key')) {
-            $query->where('project_key', $request->input('project_key'));
+        // プロジェクトIDで絞り込む
+        if ($request->filled('project_id')) {
+            $query->where('project_id', $request->input('project_id'));
         }
 
         // 件名で絞り込む

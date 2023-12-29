@@ -27,7 +27,7 @@ class IssueFactory extends Factory
             'status_id' => IssueStatus::factory(),
             'priority_id' => $this->faker->boolean(80)
                 ? $this->faker->numberBetween(1, 3) : null,
-            'project_key' => Project::factory(),
+            'project_id' => Project::factory(),
             'due_at' => $this->faker->boolean(20)
                 ? $this->faker->dateTimeBetween('now', '+ 20 days')
                 : null,

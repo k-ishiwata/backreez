@@ -10,7 +10,6 @@ use App\Models\Project;
 use App\Models\User;
 use App\UseCases\Issue\IndexAction;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
@@ -43,9 +42,7 @@ class IssuesTest extends TestCase
         $projects = Project::factory(5)->create();
         $issueStatuses = IssueStatus::factory(5)->create();
         Issue::factory(50)
-            ->state(new Sequence(
-                fn () => ['project_key' => $projects->random()->key],
-            ))
+            ->recycle($projects)
             ->recycle($issueStatuses)
             ->create([
                 'user_id' => $this->user->id
@@ -68,7 +65,7 @@ class IssuesTest extends TestCase
                         'subject',
                         'status_id',
                         'priority_id',
-                        'project_key',
+                        'project_id',
                         'due_at',
                         'project' => [
                             'id',
@@ -92,16 +89,33 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function 一覧project_keyで検索できる(): void
+    public function 一覧project_key検索できる(): void
     {
-        Issue::factory(['project_key' => 'AAA'])->create();
-        Issue::factory(['project_key' => 'AAA'])->create();
-        Issue::factory(['project_key' => 'BBB'])->create();
+        $projects = Project::factory(2)->create();
 
-        $this->getJson(self::URL . '?project_key=AAA')
+        Issue::factory(['project_id' => $projects[0]->id])->create();
+        Issue::factory(['project_id' => $projects[0]->id])->create();
+        Issue::factory(['project_id' => $projects[1]->id])->create();
+
+        $this->getJson(self::URL . '?project_key=' . $projects[0]->key)
             ->assertOk()
             ->assertJsonCount(2, 'data')
-            ->assertJsonFragment(['project_key' => 'AAA']);
+            ->assertJsonFragment(['project_id' => $projects[0]->id]);
+    }
+
+    /**
+     * @test
+     */
+    public function 一覧project_id検索できる(): void
+    {
+        Issue::factory(['project_id' => 1])->create();
+        Issue::factory(['project_id' => 1])->create();
+        Issue::factory(['project_id' => 2])->create();
+
+        $this->getJson(self::URL . '?project_id=1')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonFragment(['project_id' => 1]);
     }
 
     /**
@@ -179,7 +193,7 @@ class IssuesTest extends TestCase
             'body' => 'テスト内容',
             'status_id' => 1,
             'priority_id' => 1,
-            'project_key' => $project->key,
+            'project_id' => $project->id,
             'due_at' => '2022-04-01 10:00',
             'user_id' => 1,
         ];
@@ -227,7 +241,7 @@ class IssuesTest extends TestCase
         $this->deleteJson(self::URL.'/'.$issue->id)
             ->assertOk();
 
-        $this->assertDatabaseMissing('issues', $issue->only([
+        $this->assertSoftDeleted('issues', $issue->only([
             'id', 'subject'
         ]));
     }
@@ -241,7 +255,7 @@ class IssuesTest extends TestCase
             ->assertUnprocessable()
             ->assertInvalid([
                 'subject'     => 'この項目は必須です。',
-                'project_key' => 'この項目は必須です。',
+                'project_id' => 'この項目は必須です。',
             ]);
     }
 

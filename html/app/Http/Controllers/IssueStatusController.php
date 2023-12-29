@@ -8,16 +8,16 @@ use App\Http\Requests\IssueStatusRequest;
 use App\Models\IssueStatus;
 use App\UseCases\IssueStatus\DestroyAction;
 use App\UseCases\IssueStatus\IndexAction;
+use App\UseCases\IssueStatus\SelectListAction;
 use App\UseCases\IssueStatus\StoreAction;
 use App\UseCases\IssueStatus\UpdateAction;
-use App\UseCases\IssueStatus\SelectListAction;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class IssueStatusController extends Controller
 {
     /**
-     * @param  IndexAction  $action
+     * @param  \App\UseCases\Issue\IndexAction  $action
      * @return JsonResponse
      */
     public function index(IndexAction $action): JsonResponse

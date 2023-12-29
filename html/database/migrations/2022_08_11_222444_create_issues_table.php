@@ -15,10 +15,8 @@ return new class extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
-            $table->char('project_key', 10)
-                ->references('key')->on('projects')
-                ->index()
-                ->nullable();
+            $table->foreignId('project_id')
+                ->index();
             $table
                 ->string('subject', 255)
                 ->comment('題名');

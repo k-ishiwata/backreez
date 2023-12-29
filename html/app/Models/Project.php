@@ -20,6 +20,6 @@ class Project extends Model
      */
     public function issues(): HasMany
     {
-        return $this->hasMany(Issue::class, 'project_key', 'key');
+        return $this->hasMany(Issue::class);
     }
 }

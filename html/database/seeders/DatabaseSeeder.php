@@ -28,9 +28,7 @@ class DatabaseSeeder extends Seeder
         Issue::factory(200)
             ->recycle($users)
             ->recycle($issueStatus)
-            ->state(new Sequence(
-                fn () => ['project_key' => $projects->random()->key],
-            ))
+            ->recycle($projects)
             ->create();
     }
 }
