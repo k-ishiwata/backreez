@@ -3,6 +3,7 @@ import { redirect, createBrowserRouter } from 'react-router-dom'
 import { getAuthUser } from '@/queries/authQuery'
 import { MainLayout } from '@/components/layouts/MainLayout'
 import { ProjectLayout } from '@/components/layouts/ProjectLayout'
+import { SettingLayout } from '@/pages/settings/components/SettingLayout'
 import DashboardPage from '@/pages/dashboard'
 import ProjectsPage from '@/pages/projects'
 import HomePage from '@/pages/home'
@@ -65,7 +66,13 @@ export const router = createBrowserRouter([
                         ]
                     }, {
                         path: 'settings',
-                        element: <SettingsPage />
+                        element: <SettingLayout />,
+                        children: [
+                            {
+                                index: true,
+                                element: <SettingsPage />
+                            },
+                        ]
                     }
                 ]
             }

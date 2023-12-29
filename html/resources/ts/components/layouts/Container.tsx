@@ -1,17 +1,22 @@
 import { styled } from '@/stitches.config'
 
 export const Container = styled('div', {
-    width: 960,
+    maxWidth: 960,
     margin: '0 auto',
     padding: '15px 0',
 
     variants: {
+        position: {
+            left: {
+                margin: 0,
+            }
+        },
         size: {
             sm: {
-                width: 600
+                maxWidth: 600
             },
             full: {
-                width: '100%'
+                maxWidth: '100%'
             }
         },
     }

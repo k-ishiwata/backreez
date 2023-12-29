@@ -3,6 +3,14 @@ import type { Project, ProjectPager } from '@/types/Project'
 import type { ProjectSchema } from '@/schemas/ProjectSchema'
 const API_URI = '/api/projects'
 
+const castResponse = ({ created_at, updated_at, ...project }: Project): Project => {
+    return {
+        ...project,
+        created_at: new Date(created_at),
+        updated_at: new Date(updated_at),
+    }
+}
+
 const getProjects = async (page?: number) => {
     const { data } = await axios.get<ProjectPager>(API_URI, {
         params: {
@@ -17,6 +25,11 @@ const getProjects = async (page?: number) => {
     }));
 
     return data
+}
+
+const getProject = async (key: string) => {
+    const { data } = await axios.get<Project>(`${API_URI}/${key}`)
+    return castResponse(data)
 }
 
 const createProject = async (project: ProjectSchema) => {
@@ -39,6 +52,7 @@ const deleteProject = async (id: number) => {
 
 export {
     getProjects,
+    getProject,
     createProject,
     updateProject,
     deleteProject

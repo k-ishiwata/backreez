@@ -6,6 +6,10 @@ import { toast } from 'react-toastify'
 import type { ProjectSchema } from '@/schemas/ProjectSchema'
 import type { UseFormSetError } from 'react-hook-form/dist/types/form'
 
+const useProject = (key: string) => {
+    return useQuery([`project`, key], () => api.getProject(key))
+}
+
 const useProjects = (page?: number) => {
     return useQuery([`projects`, page], () => api.getProjects(page))
 }
@@ -60,6 +64,7 @@ const useDeleteProject = () => {
 }
 
 export {
+    useProject,
     useProjects,
     useCreateProject,
     useUpdateProject,
