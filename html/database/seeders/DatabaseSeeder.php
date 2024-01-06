@@ -6,7 +6,6 @@ use App\Models\Issue;
 use App\Models\IssueStatus;
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,7 +22,11 @@ class DatabaseSeeder extends Seeder
 
         $users = User::all();
         $issueStatus = IssueStatus::all();
-        $projects = Project::factory(10)->create();
+        $projects = Project::factory(10)
+            ->create()
+            ->each(fn ($project) =>
+                $project->users()->attach($users->random(random_int(1, 3)))
+            );
 
         Issue::factory(200)
             ->recycle($users)

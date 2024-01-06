@@ -8,6 +8,9 @@ use App\Models\Issue;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class IndexAction
 {
@@ -18,17 +21,24 @@ class IndexAction
      * 課題一覧
      *
      * @param  Request  $request
-     * @return LengthAwarePaginator
+     * @return LengthAwarePaginator|null
      */
-    public function __invoke(Request $request): LengthAwarePaginator
+    public function __invoke(Request $request): LengthAwarePaginator|null
     {
         // project_keyで検索された場合はprojectからidを取得
-        if ($request->filled('project_key')) {
-            $project = Project::where('key', $request->input('project_key'))->first();
-            if ($project) {
-                $request->merge(['project_id' => $project->id]);
-            }
+        $project = Project::where('key', $request->input('project_key'))->first();
+
+        if (is_null($project)) {
+            throw ValidationException::withMessages([
+                'project_key' => '指定したプロジェクトは登録されてません。'
+            ]);
         }
+
+        if (! $project->isAssign(Auth::id())) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $request->merge(['project_id' => $project->id]);
 
         return Issue::with([
             'project:id,key,name',

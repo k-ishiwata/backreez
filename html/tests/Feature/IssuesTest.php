@@ -8,8 +8,8 @@ use App\Models\Issue;
 use App\Models\IssueStatus;
 use App\Models\Project;
 use App\Models\User;
-use App\UseCases\Issue\IndexAction;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
@@ -33,19 +33,34 @@ class IssuesTest extends TestCase
     }
 
     /**
+     * @param  int  $count
+     * @param  int|null  $userId
+     * @return Collection
+     */
+    private function createProjectData(int $count = 5, int $userId = null): Collection
+    {
+        return Project::factory($count)
+            ->create()
+            ->each(fn ($project) =>
+                $project->users()->attach($userId ?? $this->user->id)
+            );
+    }
+
+    /**
      * テストデータの登録
      *
-     * @return void
+     * @param  int|null  $userId
+     * @return Collection
      */
-    private function createData(): void
+    private function createData(int $userId = null): Collection
     {
-        $projects = Project::factory(5)->create();
+        $projects = $this->createProjectData(userId: $userId);
         $issueStatuses = IssueStatus::factory(5)->create();
-        Issue::factory(50)
+        return Issue::factory(50)
             ->recycle($projects)
             ->recycle($issueStatuses)
             ->create([
-                'user_id' => $this->user->id
+                'user_id' => $userId ?? $this->user->id
             ]);
     }
 
@@ -54,14 +69,15 @@ class IssuesTest extends TestCase
      */
     public function 一覧を取得できる(): void
     {
-        $this->createData();
+        $issue = $this->createData()[0];
+        $project = $issue->project;
 
-        $this->getJson(self::URL)
+        $this->getJson(self::URL . '?project_key=' . $project->key)
             ->assertOk()
-            ->assertJsonCount(IndexAction::DISPLAY_NUMBER, 'data')
             ->assertJsonStructure([
                 'data' => [
                     [
+                        'id',
                         'subject',
                         'status_id',
                         'priority_id',
@@ -89,45 +105,21 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function 一覧project_key検索できる(): void
-    {
-        $projects = Project::factory(2)->create();
-
-        Issue::factory(['project_id' => $projects[0]->id])->create();
-        Issue::factory(['project_id' => $projects[0]->id])->create();
-        Issue::factory(['project_id' => $projects[1]->id])->create();
-
-        $this->getJson(self::URL . '?project_key=' . $projects[0]->key)
-            ->assertOk()
-            ->assertJsonCount(2, 'data')
-            ->assertJsonFragment(['project_id' => $projects[0]->id]);
-    }
-
-    /**
-     * @test
-     */
-    public function 一覧project_id検索できる(): void
-    {
-        Issue::factory(['project_id' => 1])->create();
-        Issue::factory(['project_id' => 1])->create();
-        Issue::factory(['project_id' => 2])->create();
-
-        $this->getJson(self::URL . '?project_id=1')
-            ->assertOk()
-            ->assertJsonCount(2, 'data')
-            ->assertJsonFragment(['project_id' => 1]);
-    }
-
-    /**
-     * @test
-     */
     public function 一覧subjectで検索できる(): void
     {
-        Issue::factory(['subject' => 'BAB'])->create();
-        Issue::factory(['subject' => 'AAA'])->create();
-        Issue::factory(['subject' => 'BBB'])->create();
+        $project = $this->createProjectData(1)[0];
 
-        $this->getJson(self::URL . '?subject=A')
+        $data = [
+            ['subject' => 'BAB', 'project_id' => $project->id],
+            ['subject' => 'AAA', 'project_id' => $project->id],
+            ['subject' => 'BBB', 'project_id' => $project->id],
+        ];
+
+        foreach ($data as $d) {
+            Issue::factory($d)->create();
+        }
+
+        $this->getJson(self::URL . '?subject=A&project_key=' . $project->key)
             ->assertOk()
             ->assertJsonCount(2, 'data')
             ->assertJsonFragment(['subject' => 'BAB']);
@@ -138,11 +130,19 @@ class IssuesTest extends TestCase
      */
     public function 一覧status_idで検索できる(): void
     {
-        Issue::factory(['status_id' => 1])->create();
-        Issue::factory(['status_id' => 2])->create();
-        Issue::factory(['status_id' => 2])->create();
+        $project = $this->createProjectData(1)[0];
 
-        $this->getJson(self::URL . '?status_id=2')
+        $data = [
+            ['status_id' => 1, 'project_id' => $project->id],
+            ['status_id' => 2, 'project_id' => $project->id],
+            ['status_id' => 2, 'project_id' => $project->id],
+        ];
+
+        foreach ($data as $d) {
+            Issue::factory($d)->create();
+        }
+
+        $this->getJson(self::URL . '?status_id=2&project_key=' . $project->key)
             ->assertOk()
             ->assertJsonCount(2, 'data')
             ->assertJsonFragment(['status_id' => 2]);
@@ -153,11 +153,19 @@ class IssuesTest extends TestCase
      */
     public function 一覧priority_idで検索できる(): void
     {
-        Issue::factory(['priority_id' => 1])->create();
-        Issue::factory(['priority_id' => 2])->create();
-        Issue::factory(['priority_id' => 2])->create();
+        $project = $this->createProjectData(1)[0];
 
-        $this->getJson(self::URL . '?priority_id=2')
+        $data = [
+            ['priority_id' => 1, 'project_id' => $project->id],
+            ['priority_id' => 2, 'project_id' => $project->id],
+            ['priority_id' => 2, 'project_id' => $project->id],
+        ];
+
+        foreach ($data as $d) {
+            Issue::factory($d)->create();
+        }
+
+        $this->getJson(self::URL . '?priority_id=2&project_key=' . $project->key)
             ->assertOk()
             ->assertJsonCount(2, 'data')
             ->assertJsonFragment(['priority_id' => 2]);
@@ -185,17 +193,16 @@ class IssuesTest extends TestCase
      */
     public function 登録できる(): void
     {
-        $this->createData();
+        $issue = $this->createData()[0];
 
-        $project = Project::first();
         $data = [
             'subject' => 'テスト課題',
             'body' => 'テスト内容',
             'status_id' => 1,
             'priority_id' => 1,
-            'project_id' => $project->id,
+            'project_id' => $issue->project->id,
             'due_at' => '2022-04-01 10:00',
-            'user_id' => 1,
+            'user_id' => $issue->project->users[0]->id,
         ];
 
         $this->postJson(self::URL, $data)
@@ -213,13 +220,10 @@ class IssuesTest extends TestCase
      */
     public function 更新できる(): void
     {
-        $this->createData();
-
-        $issue = Issue::first();
+        $issue = $this->createData()[0];
 
         $issue->subject = '書き換え';
         $issue->body    = '内容書き換え';
-        $issue->user_id = 2;
 
         $this->putJson(self::URL.'/'.$issue->id, $issue->toArray())
             ->assertOk();
@@ -234,9 +238,7 @@ class IssuesTest extends TestCase
      */
     public function 削除できる(): void
     {
-        $this->createData();
-
-        $issue = Issue::first();
+        $issue = $this->createData()[0];
 
         $this->deleteJson(self::URL.'/'.$issue->id)
             ->assertOk();
@@ -249,13 +251,98 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
+    public function アサインされてないプロジェクトへは登録できない(): void
+    {
+        $user = User::factory()->create();
+        $issue = $this->createData(userId: $user->id)[0];
+
+        $data = [
+            'subject' => 'テスト課題',
+            'body' => 'テスト内容',
+            'status_id' => 1,
+            'priority_id' => 1,
+            'project_id' => $issue->project->id,
+            'due_at' => '2022-04-01 10:00',
+            'user_id' => 99999,
+        ];
+
+        $this->postJson(self::URL, $data)
+            ->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
+    public function アサインされてない課題は更新できない(): void
+    {
+        $user = User::factory()->create();
+        $issue = $this->createData(userId: $user->id)[0];
+
+        $this->putJson(self::URL.'/'.$issue->id, $issue->toArray())
+            ->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
+    public function アサインされてない課題は削除できない(): void
+    {
+        $user = User::factory()->create();
+        $issue = $this->createData(userId: $user->id)[0];
+
+        $this->deleteJson(self::URL.'/'.$issue->id)
+            ->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
+    public function user_idがアサインされてない課題は登録できない(): void
+    {
+        $issue = $this->createData()[0];
+
+        $data = [
+            'subject' => 'テスト課題',
+            'project_id' => $issue->project->id,
+            'user_id' => 99999,
+        ];
+
+        $this->postJson(self::URL, $data)
+            ->assertJsonValidationErrors([
+                'user_id' => '指定したユーザーはこのプロジェクトにアサインされてません。'
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_idがアサインされてない課題は更新できない(): void
+    {
+        $issue = $this->createData()[0];
+
+        $issue->user_id = 99999;
+
+        $this->putJson(self::URL.'/'.$issue->id, $issue->toArray())
+            ->assertJsonValidationErrors([
+                'user_id' => '指定したユーザーはこのプロジェクトにアサインされてません。'
+            ]);
+    }
+
+    /**
+     * @test
+     */
     public function 必須項目のバリデーション(): void
     {
-        $this->postJson(self::URL, [])
+        $issue = $this->createData()[0];
+
+        $data = [
+            'project_id' => $issue->project->id,
+        ];
+
+        $this->postJson(self::URL, $data)
             ->assertUnprocessable()
             ->assertInvalid([
-                'subject'     => 'この項目は必須です。',
-                'project_id' => 'この項目は必須です。',
+                'subject' => 'この項目は必須です。',
             ]);
     }
 
@@ -264,12 +351,15 @@ class IssuesTest extends TestCase
      */
     public function 文字数のバリデーション(): void
     {
+        $issue = $this->createData()[0];
+
         $data = [
-            'subject' => str_repeat('あ', 256)
+            'project_id' => $issue->project->id,
+            'subject' => str_repeat('あ', 256),
         ];
 
         $this->postJson(self::URL, $data)
-            ->assertStatus(422)
+            ->assertUnprocessable()
             ->assertJsonValidationErrors([
                 'subject' => '255文字以下で入力してください。'
             ]);

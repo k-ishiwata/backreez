@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ProjectController extends Controller
 {
     /**
-     * @param  \App\UseCases\Issue\IndexAction  $action
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
     public function index(IndexAction $action): JsonResponse
@@ -40,7 +40,9 @@ class ProjectController extends Controller
      */
     public function show(string $key): JsonResponse
     {
-        return response()->json(Project::where('key', $key)->first());
+        $project = Project::with('users:id,name')->where('key', $key)->first();
+        $this->authorize('isAssign', $project);
+        return response()->json($project);
     }
 
     /**
@@ -51,6 +53,7 @@ class ProjectController extends Controller
      */
     public function update(UpdateAction $action, ProjectRequest $request, Project $project): JsonResponse
     {
+        $this->authorize('isAssign', $project);
         return response()->json($action($request->safe(), $project));
     }
 
@@ -61,6 +64,7 @@ class ProjectController extends Controller
      */
     public function destroy(DestroyAction $action, Project $project): JsonResponse
     {
+        $this->authorize('isAssign', $project);
         return response()->json($action($project));
     }
 }

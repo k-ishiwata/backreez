@@ -29,7 +29,7 @@ class IssueIndexRequest extends FormRequest
             'subject'     => 'nullable|max:255',
             'status_id'   => 'nullable|integer',
             'priority_id' => 'nullable|integer',
-            'project_key' => 'nullable|string',
+            'project_key' => 'required|string',
             'due_at'      => 'nullable|date',
             'user_id'     => 'nullable|integer',
         ];

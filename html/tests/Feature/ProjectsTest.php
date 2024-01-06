@@ -6,7 +6,6 @@ namespace Tests\Feature;
 
 use App\Models\Project;
 use App\Models\User;
-use App\UseCases\Project\IndexAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
@@ -21,11 +20,15 @@ class ProjectsTest extends TestCase
     {
         parent::setUp();
 
-        Project::factory(40)->create();
-
         $user = User::factory()->create();
         $this->actingAs($user);
         $this->user = Auth::user();
+
+        Project::factory(40)
+            ->create()
+            ->each(fn ($project) =>
+                $project->users()->attach($this->user->id)
+            );
     }
 
     /**
@@ -36,7 +39,6 @@ class ProjectsTest extends TestCase
         $response = $this->getJson(self::URL);
         $response
             ->assertOk()
-            ->assertJsonCount(IndexAction::DISPLAY_NUMBER, 'data')
             ->assertJsonStructure([
                 'current_page',
                 'data',
@@ -84,12 +86,14 @@ class ProjectsTest extends TestCase
      */
     public function keyで取得できる(): void
     {
-        $data = Project::first();
+        $data = Project::whereHas('users', fn ($query) =>
+            $query->where('user_id', $this->user->id)
+        )->first();
 
         $response = $this->getJson(self::URL . '/' . $data->key);
         $response
             ->assertOk()
-            ->assertExactJson($data->toArray());
+            ->assertJson($data->toArray());
     }
 
     /**
@@ -123,6 +127,50 @@ class ProjectsTest extends TestCase
         $this->assertSoftDeleted('projects', $data->only([
             'id', 'name', 'description'
         ]));
+    }
+
+    /**
+     * @test
+     */
+    public function アサインされていない場合は取得できない(): void
+    {
+        $user = User::factory(['id' => 9999])->create();
+
+        $data = Project::factory()->create();
+        $data->users()->attach($user->id);
+
+        $response = $this->getJson(self::URL . '/' . $data->key);
+        $response->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
+    public function アサインされていない場合は更新できない(): void
+    {
+        $user = User::factory(['id' => 9999])->create();
+
+        $data = Project::factory()->create();
+        $data->users()->attach($user->id);
+
+        $data->name = '書き換え';
+
+        $response = $this->putJson(self::URL.'/'.$data->id, $data->toArray());
+        $response->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
+    public function アサインされていない場合は削除できない(): void
+    {
+        $user = User::factory(['id' => 9999])->create();
+
+        $data = Project::factory()->create();
+        $data->users()->attach($user->id);
+
+        $response = $this->deleteJson(self::URL.'/'.$data->id);
+        $response->assertForbidden();
     }
 
     /**

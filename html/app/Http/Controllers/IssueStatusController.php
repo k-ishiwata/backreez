@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class IssueStatusController extends Controller
 {
     /**
-     * @param  \App\UseCases\Issue\IndexAction  $action
+     * @param  IndexAction  $action
      * @return JsonResponse
      */
     public function index(IndexAction $action): JsonResponse

@@ -6,6 +6,7 @@ namespace App\UseCases\Project;
 
 use App\Models\Project;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 class IndexAction
 {
@@ -19,6 +20,10 @@ class IndexAction
      */
     public function __invoke(): LengthAwarePaginator
     {
-        return Project::latest()->paginate(self::DISPLAY_NUMBER);
+        return Project::whereHas('users', fn ($query) =>
+            $query->where('user_id', Auth::id())
+        )
+        ->latest()
+        ->paginate(self::DISPLAY_NUMBER);
     }
 }

@@ -27,7 +27,7 @@ class ProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'key' => 'required', 'max:10', Rule::unique('projects')->ignore($this->input('id')),
+            'key' => ['required', 'max:10', Rule::unique('projects')->ignore($this->input('id'))],
             'name' => 'required|max:30',
             'description' => 'nullable|max:255',
         ];

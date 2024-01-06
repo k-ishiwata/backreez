@@ -49,6 +49,8 @@ class IssueController extends Controller
      */
     public function show(Issue $issue): JsonResponse
     {
+        $this->authorize('isAssign', $issue);
+
         $issue->load([
             'status:id,name,color',
             'user:id,name',
@@ -79,6 +81,7 @@ class IssueController extends Controller
         DestroyAction $action,
         Issue $issue
     ): JsonResponse {
+        $this->authorize('isAssign', $issue);
         return response()->json($action($issue));
     }
 }
